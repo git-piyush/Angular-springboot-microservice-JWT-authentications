@@ -21,5 +21,5 @@ public class UserCredential {
     private String email;
     private String password;
     private String userType;
-    private char active;
+    private String active;
 }

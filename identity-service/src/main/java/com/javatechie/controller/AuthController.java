@@ -1,14 +1,21 @@
 package com.javatechie.controller;
 
 import com.javatechie.dto.AuthRequest;
+import com.javatechie.dto.Response;
 import com.javatechie.entity.UserCredential;
+import com.javatechie.exception.UserAlreadyExistException;
+import com.javatechie.exception.UserDoNotExistException;
 import com.javatechie.service.AuthService;
 import com.javatechie.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,10 +27,21 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public String addNewUser(@RequestBody UserCredential user) {
-        user.setUserType(null);
-        user.setActive(AppConstants.NO);
-        return service.saveUser(user);
+    public ResponseEntity addNewUser(@RequestBody UserCredential user) {
+        System.out.println("1");
+        try {
+            UserCredential userCredential = service.findByEmail(user.getEmail());
+            System.out.println("2");
+        } catch (UserDoNotExistException e) {
+            //Register the user
+            user.setUserType(null);
+            user.setActive(AppConstants.NO);
+            service.saveUser(user);
+            Response res = new Response("User with email: "+user.getEmail()+" Created.");
+            return new ResponseEntity<>(res, HttpStatus.CREATED);
+        }
+        Response res = new Response("User with email: "+user.getEmail()+" already exist.");
+        return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/token")

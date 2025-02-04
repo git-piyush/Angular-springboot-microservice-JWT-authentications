@@ -10,5 +10,5 @@ public class AppConstants {
 
     public static String YES = "Y";
 
-    public static char NO = 'N';
+    public static String NO = "N";
 }
