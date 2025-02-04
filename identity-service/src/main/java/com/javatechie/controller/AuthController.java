@@ -3,6 +3,7 @@ package com.javatechie.controller;
 import com.javatechie.dto.AuthRequest;
 import com.javatechie.entity.UserCredential;
 import com.javatechie.service.AuthService;
+import com.javatechie.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public String addNewUser(@RequestBody UserCredential user) {
+        user.setUserType(null);
+        user.setActive(AppConstants.NO);
         return service.saveUser(user);
     }
 

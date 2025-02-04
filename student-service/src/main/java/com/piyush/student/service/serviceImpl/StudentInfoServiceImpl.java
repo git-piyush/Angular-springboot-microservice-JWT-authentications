@@ -1,22 +1,22 @@
 package com.piyush.student.service.serviceImpl;
 
-import com.piyush.student.entity.UserInfo;
-import com.piyush.student.repository.UserInfoRepository;
-import com.piyush.student.service.UserInfoService;
+import com.piyush.student.entity.StudentInfo;
+import com.piyush.student.repository.StudentInfoRepository;
+import com.piyush.student.service.StudentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 @Service
-public class UserInfoServiceImpl implements UserInfoService {
+public class StudentInfoServiceImpl implements StudentInfoService {
 
     @Autowired
-    private UserInfoRepository userInfoRepository;
+    private StudentInfoRepository userInfoRepository;
 
     @Transactional
     @Override
-    public UserInfo saveUserInfo(UserInfo modelRequest) {
-        UserInfo userInfo = null;
+    public StudentInfo saveStudentInfo(StudentInfo modelRequest) {
+        StudentInfo userInfo = null;
         try {
             if(modelRequest!=null){
                 return userInfoRepository.save(modelRequest);

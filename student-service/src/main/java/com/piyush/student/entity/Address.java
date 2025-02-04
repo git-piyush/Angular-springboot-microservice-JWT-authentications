@@ -33,7 +33,7 @@ public class Address {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private UserInfo userInfo;
+    @JoinColumn(name = "student_id")
+    private StudentInfo studentInfo;
 
 }

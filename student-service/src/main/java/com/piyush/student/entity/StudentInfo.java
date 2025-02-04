@@ -9,14 +9,14 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name="tbl_user")
+@Table(name="tbl_student")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo {
+public class StudentInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -28,7 +28,7 @@ public class UserInfo {
 
     private String phone;
 
-    @OneToOne(mappedBy = "userInfo",fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "studentInfo",fetch = FetchType.EAGER)
     private Address address;
 
 }

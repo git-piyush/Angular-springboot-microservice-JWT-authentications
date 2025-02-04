@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class UserInfoRequest {
+public class StudentInfoRequest {
 
     private Long id;
 

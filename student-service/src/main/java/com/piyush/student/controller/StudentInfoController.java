@@ -1,7 +1,7 @@
 package com.piyush.student.controller;
 
 import com.piyush.student.config.FeeServiceClient;
-import com.piyush.student.dto.UserInfoRequest;
+import com.piyush.student.dto.StudentInfoRequest;
 import com.piyush.student.fee.FeeClient;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class StudentInfoController {
     private FeeServiceClient feeServiceClient;
 
     @PostMapping("/student-info")
-    public String saveUserInfo(@Valid @RequestBody UserInfoRequest modelRequest,
+    public String saveUserInfo(@Valid @RequestBody StudentInfoRequest modelRequest,
                                @RequestHeader(name="Authorization") String token){
         System.out.println(token);
         String msg = null;
