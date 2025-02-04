@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: student-service
+          uri: lb://STUDENT-SERVICE
+          predicates:
+            - Path=/api/v1/student/**
+          filters:
+            - AuthenticationFilter
+
+        - id: fee-service
+          uri: lb://FEE-SERVICE
+          predicates:
+            - Path=/api/v1/fee/**
+          filters:
+            - AuthenticationFilter
+
+        - id: identity-service
+          uri: lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/auth/**
+eureka:
+  client:
+   service-url:
+    defaultZone : http://localhost:8761/eureka/
+server:
+  port: 8081
