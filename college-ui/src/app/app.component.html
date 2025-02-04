@@ -1,0 +1,94 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div class="bg-gray-800 text-white w-64 flex-shrink-0">
+    <div class="p-4 text-lg font-bold border-b border-gray-700">{{ title }}</div>
+    <nav class="mt-4">
+      <ul>
+        <li>
+          <a href="#" routerLink="/admin/admindashboard" class="block px-4 py-2 hover:bg-gray-700 rounded transition">
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-700 rounded transition">
+            Settings
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block px-4 py-2 hover:bg-gray-700 rounded transition"
+          >
+            Profile
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block px-4 py-2 hover:bg-gray-700 rounded transition"
+          >
+            Help
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col bg-gray-100">
+    <!-- Navbar -->
+    <header class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
+      <button class="md:hidden bg-gray-700 p-2 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+        </svg>
+      </button>
+      <div class="flex items-center justify-between  space-x-1 h-1">
+        <button mat-button routerLink="/home" routerLinkActive="active" class="py-5 px-3 text-gray-500">Home</button>
+        
+        <div *ngIf="isAdminLoggedIn">
+          <button mat-button routerLink="/admin/addstudent" routerLinkActive="active" class="py-5 px-3 text-gray-100">Add Student</button>
+          <button mat-button routerLink="/admin/studentlist" routerLinkActive="active" class="py-5 px-3 text-gray-100">All Student</button>
+        </div>
+        
+        <a routerLink="/admin/addcustomer" href="#" class="py-5 px-3 text-gray-100">Work</a>
+        <a href="#" class="py-5 px-3 text-gray-100">Experience</a>
+        <a href="#" class="py-5 px-3 text-gray-100">Contact</a>
+      </div>
+
+      <div class="flex items-center justify-between space-x-1 h-1">
+        <div *ngIf="isAdminLoggedIn">
+          <button routerLink="/viewprofile" routerLinkActive="active" class="py-5 px-3 text-gray-100" data-toggle="tooltip" data-placement="top" title="View Profile">{{ name }}</button>
+          <button mat-button (click)="logout()" routerLinkActive="active" class="py-5 px-3 text-gray-100">Logout</button>
+        </div>       
+        <div *ngIf="!isAdminLoggedIn">
+          <button mat-button routerLink="/login" routerLinkActive="active" class="py-5 px-3 text-gray-100">Login</button>
+         </div>
+         <div>
+          <button (click)="toggleDarkMode()" class="fixed bottom-4 left-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">
+            <svg class="w-6 h-6 dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+               <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
+            </svg>
+         </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="p-6">
+      <div *ngIf="whitetext">
+        <div class="bg-gray-50 dark:bg-gray-800 min-h-screen p-4 transition-colors duration-200 text-white">
+          <router-outlet> </router-outlet>
+        </div>
+      </div>
+      <div *ngIf="!whitetext">
+        <div class="bg-gray-50 dark:bg-gray-800 min-h-screen p-4 transition-colors duration-200">
+          <router-outlet> </router-outlet>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

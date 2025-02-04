@@ -1,6 +1,7 @@
 package com.javatechie.controller;
 
 import com.javatechie.dto.AuthRequest;
+import com.javatechie.dto.AuthResponse;
 import com.javatechie.dto.Response;
 import com.javatechie.entity.UserCredential;
 import com.javatechie.exception.UserAlreadyExistException;
@@ -45,10 +46,18 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public String getToken(@RequestBody AuthRequest authRequest) {
+    public AuthResponse getToken(@RequestBody AuthRequest authRequest) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authenticate.isAuthenticated()) {
-            return service.generateToken(authRequest.getEmail());
+            String token = service.generateToken(authRequest.getEmail());
+            UserCredential user = service.findByEmail(authRequest.getEmail());
+            AuthResponse authResponse = new AuthResponse();
+            authResponse.setToken(token);
+            authResponse.setEmail(authRequest.getEmail());
+            authResponse.setActive(user.getActive());
+            authResponse.setUserType(user.getUserType());
+            authResponse.setUserName(user.getName());
+            return authResponse;
         } else {
             throw new RuntimeException("invalid access");
         }
