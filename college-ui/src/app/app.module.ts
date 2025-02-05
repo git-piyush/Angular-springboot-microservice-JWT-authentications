@@ -20,6 +20,7 @@ import { ProfileComponent } from './common-component/prfile-component/profile/pr
 import { RegisterComponent } from './common-component/register-component/register/register.component';
 import { LoginComponent } from './common-component/login-component/login/login.component';
 import { HomeComponent } from './common-component/home-component/home/home.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { HomeComponent } from './common-component/home-component/home/home.compo
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     provideAnimationsAsync(),

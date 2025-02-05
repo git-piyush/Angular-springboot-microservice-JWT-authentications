@@ -12,6 +12,11 @@ export const adminGuard: CanActivateFn = (route, state) => {
     const snackbar = inject(MatSnackBar);
     var token = StorageService.getToken();
     if(token){
+          var user = StorageService.getUser();
+          if(user.active==='N'){
+            snackbar.open("Please Activate your account.","Close", { duration: 5000 });
+            router.navigateByUrl("/login");
+          }
           return true;
     }else{
         snackbar.open("You don't have access to this page","Close", { duration: 5000 });

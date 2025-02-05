@@ -44,11 +44,11 @@
         </svg>
       </button>
       <div class="flex items-center justify-between  space-x-1 h-1">
-        <button mat-button routerLink="/home" routerLinkActive="active" class="py-5 px-3 text-gray-500">Home</button>
+        <button style="color: white;" mat-button routerLink="/home" routerLinkActive="active" class="py-5 px-3 text-gray-500">Home</button>
         
         <div *ngIf="isAdminLoggedIn">
-          <button mat-button routerLink="/admin/addstudent" routerLinkActive="active" class="py-5 px-3 text-gray-100">Add Student</button>
-          <button mat-button routerLink="/admin/studentlist" routerLinkActive="active" class="py-5 px-3 text-gray-100">All Student</button>
+          <button style="color: white;" mat-button routerLink="/admin/addstudent" routerLinkActive="active" class="py-5 px-3 text-gray-100">Add Student</button>
+          <button style="color: white;" mat-button routerLink="/admin/studentlist" routerLinkActive="active" class="py-5 px-3 text-gray-100">All Student</button>
         </div>
         
         <a routerLink="/admin/addcustomer" href="#" class="py-5 px-3 text-gray-100">Work</a>
@@ -58,11 +58,12 @@
 
       <div class="flex items-center justify-between space-x-1 h-1">
         <div *ngIf="isAdminLoggedIn">
-          <button routerLink="/viewprofile" routerLinkActive="active" class="py-5 px-3 text-gray-100" data-toggle="tooltip" data-placement="top" title="View Profile">{{ name }}</button>
+          <button  routerLink="/viewprofile" routerLinkActive="active" class="py-5 px-3 text-gray-100" data-toggle="tooltip" data-placement="top" title="View Profile">{{ name }}</button>
           <button mat-button (click)="logout()" routerLinkActive="active" class="py-5 px-3 text-gray-100">Logout</button>
         </div>       
         <div *ngIf="!isAdminLoggedIn">
           <button mat-button routerLink="/login" routerLinkActive="active" class="py-5 px-3 text-gray-100">Login</button>
+          <button mat-button routerLink="/register" routerLinkActive="active" class="py-5 px-3 text-gray-100">Register</button>
          </div>
          <div>
           <button (click)="toggleDarkMode()" class="fixed bottom-4 left-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">

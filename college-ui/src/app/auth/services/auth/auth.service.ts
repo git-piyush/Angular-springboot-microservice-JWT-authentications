@@ -10,15 +10,13 @@ const AUTH_HEADER = 'authorization';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-
-  
+export class AuthService {  
   constructor(private http: HttpClient,
     private storage: StorageService) { }
-
-  // login(loginRequest: any): Observable<any>{
-  //   return this.http.post(BASIC_URL+'auth',loginRequest);
-  // }
+    
+    register(signRequest: any): Observable<any> {
+      return this.http.post<[]>(BASIC_URL + 'auth/register', signRequest)
+    }
   
   login(email: string, password:string): Observable<any>{
     return this.http.post(BASIC_URL + 'auth/token',{

@@ -29,10 +29,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity addNewUser(@RequestBody UserCredential user) {
-        System.out.println("1");
         try {
             UserCredential userCredential = service.findByEmail(user.getEmail());
-            System.out.println("2");
         } catch (UserDoNotExistException e) {
             //Register the user
             user.setUserType(null);
@@ -42,7 +40,7 @@ public class AuthController {
             return new ResponseEntity<>(res, HttpStatus.CREATED);
         }
         Response res = new Response("User with email: "+user.getEmail()+" already exist.");
-        return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(res, HttpStatus.FOUND);
     }
 
     @PostMapping("/token")
