@@ -15,6 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 
 export class RegisterComponent {
+  loading : boolean = false;
   registrationForm: FormGroup;
   private snackbar = inject(MatSnackBar);
   constructor(private fb: FormBuilder,
@@ -35,9 +36,10 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    console.log(this.registrationForm.value);
+    this.loading = true;
     this.service.register(this.registrationForm.value).subscribe(
       (res) => {
+        this.loading = false;
         this.snackbar.open(res.msg,"Close", { duration: 5000 });
         this.router.navigateByUrl("/login");
       }, (err:HttpErrorResponse) => {

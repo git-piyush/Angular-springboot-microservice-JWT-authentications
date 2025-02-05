@@ -1,4 +1,7 @@
 <section class="vh-100">
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
     <div class="container py-5 h-170">
       <div class="row d-flex align-items-center justify-content-center h-100">
         <div class="col-md-5 col-lg-5 col-xl-5">

@@ -1,12 +1,13 @@
 <section class="vh-1000">
-
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
     <div class="container py-150 h-170">
       <div class="row d-flex align-items-center justify-content-center h-100">
         <div class="col-md-20 col-lg-10 col-xl-5">
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
             class="img-fluid" alt="Phone image">
         </div>
-        
         <div class="registration-container">
           <h2>Registration</h2>
           <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">

@@ -21,6 +21,7 @@ import { RegisterComponent } from './common-component/register-component/registe
 import { LoginComponent } from './common-component/login-component/login/login.component';
 import { HomeComponent } from './common-component/home-component/home/home.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatInputModule,
     MatSnackBarModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   providers: [
     provideAnimationsAsync(),

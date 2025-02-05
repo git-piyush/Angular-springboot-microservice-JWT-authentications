@@ -14,7 +14,7 @@ import { StorageService } from '../../../auth/services/storage/storage.service';
 })
 export class LoginComponent {
   loginForm: FormGroup | undefined;
-
+  loading : boolean = false;
   
 
   constructor(
@@ -32,11 +32,12 @@ export class LoginComponent {
   }
 
   login(){
-    console.log(this.loginForm.value);
+    this.loading = true;
     this.service.login(
       this.loginForm.get(['email'])!.value,
       this.loginForm.get(['password'])!.value,
       ).subscribe((res)=>{
+        this.loading = false;
       if(StorageService.isAdminLoggedIn()){
         console.log("Admin");
         this.router.navigateByUrl("/admin/admindashboard");
