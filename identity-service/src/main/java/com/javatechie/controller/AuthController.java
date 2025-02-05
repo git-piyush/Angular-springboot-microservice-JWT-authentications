@@ -1,7 +1,9 @@
 package com.javatechie.controller;
 
+import com.javatechie.config.NotificationRestClient;
 import com.javatechie.dto.AuthRequest;
 import com.javatechie.dto.AuthResponse;
+import com.javatechie.dto.RegisterNotification;
 import com.javatechie.dto.Response;
 import com.javatechie.entity.UserCredential;
 import com.javatechie.exception.UserAlreadyExistException;
@@ -35,7 +37,7 @@ public class AuthController {
             //Register the user
             user.setUserType(null);
             user.setActive(AppConstants.NO);
-            service.saveUser(user);
+            UserCredential userCredential = service.saveUser(user);
             Response res = new Response("User with email: "+user.getEmail()+" Created.");
             return new ResponseEntity<>(res, HttpStatus.CREATED);
         }

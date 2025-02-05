@@ -1,9 +1,12 @@
 package com.javatechie.service;
 
+import com.javatechie.config.NotificationRestClient;
+import com.javatechie.dto.RegisterNotification;
 import com.javatechie.entity.UserCredential;
 import com.javatechie.exception.UserAlreadyExistException;
 import com.javatechie.exception.UserDoNotExistException;
 import com.javatechie.repository.UserCredentialRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,14 +20,24 @@ public class AuthService {
     private UserCredentialRepository repository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private NotificationRestClient notificationRestClient;
 
     @Autowired
     private JwtService jwtService;
 
-    public String saveUser(UserCredential credential) {
+    @Transactional
+    public UserCredential saveUser(UserCredential credential) {
         credential.setPassword(passwordEncoder.encode(credential.getPassword()));
-        repository.save(credential);
-        return "user added to the system";
+        UserCredential userCredential = repository.save(credential);
+        if(userCredential != null){
+            RegisterNotification registerNotificationDTO = new RegisterNotification();
+            registerNotificationDTO.setEmail(userCredential.getEmail());
+            registerNotificationDTO.setName(userCredential.getName());
+            registerNotificationDTO.setStudentId(String.valueOf(userCredential.getId()));
+            notificationRestClient.sendEmail(registerNotificationDTO);
+        }
+        return userCredential;
     }
 
     public UserCredential findByEmail(String email) {
