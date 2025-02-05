@@ -13,7 +13,15 @@ const AUTH_HEADER = 'authorization';
 export class AuthService {  
   constructor(private http: HttpClient,
     private storage: StorageService) { }
+
+    resetPassword(resetRequest: any): Observable<any> {
+      return this.http.post<[]>(BASIC_URL + 'auth/reset-password', resetRequest)
+    }
     
+    sendOtp(signRequest: any): Observable<any> {
+      return this.http.post<[]>(BASIC_URL + 'auth/sendotp', signRequest)
+    }
+
     register(signRequest: any): Observable<any> {
       return this.http.post<[]>(BASIC_URL + 'auth/register', signRequest)
     }

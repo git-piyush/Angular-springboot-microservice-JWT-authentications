@@ -22,13 +22,17 @@ import { LoginComponent } from './common-component/login-component/login/login.c
 import { HomeComponent } from './common-component/home-component/home/home.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SendotptoemailComponent } from './common-component/sendotp-component/sendotptoemail/sendotptoemail.component';
+import { ResetpasswordComponent } from './common-component/resetpassword-component/resetpassword/resetpassword.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProfileComponent,
     RegisterComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    SendotptoemailComponent,
+    ResetpasswordComponent
   ],
   imports: [
     BrowserModule,

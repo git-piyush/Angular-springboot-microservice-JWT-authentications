@@ -1,6 +1,18 @@
 spring:
   application:
     name: IDENTITY-SERVICE
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kmrpiyush95@gmail.com
+    password: nach ehyf ggwi rkis
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+      domain_name: revauniversity@info.com
   datasource:
     url: jdbc:postgresql://localhost:5432/ecom
     username: postgres
