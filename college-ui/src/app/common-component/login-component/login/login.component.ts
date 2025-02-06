@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../auth/services/auth/auth.service';
 import { StorageService } from '../../../auth/services/storage/storage.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -46,17 +47,9 @@ export class LoginComponent {
         this.router.navigateByUrl("/student/studentdashboard");
       }
       console.log("Nothing");
-    }),
-    error => {
-      if(error.status==406){
-        this.snackbar.open("user is not active","Close",{
-          duration: 5000
-        });
-        
-      }else{
-        this.snackbar.open("Bad credentials", "Close");
-        duration:5000
+    }, (err:HttpErrorResponse) => {
+      if(err.status==403){
+        this.snackbar.open("Either Email or Password is wrong.","Close", { duration: 5000 });
       }
-    }
-  }
+   })}
 }
