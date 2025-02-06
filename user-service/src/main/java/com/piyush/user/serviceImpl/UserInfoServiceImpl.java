@@ -15,14 +15,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Transactional
     @Override
-    public UserInfo saveStudentInfo(UserInfo modelRequest) {
+    public UserInfo saveUserInfo(UserInfo modelRequest) {
         UserInfo userInfo = null;
         try {
             if(modelRequest!=null){
-                return userInfoRepository.save(modelRequest);
+                userInfo = userInfoRepository.save(modelRequest);
             }
         } catch (Exception e) {
-            //throw new BusinessException("Exception In Saving User.");
+            //throw new BusinessEx("Exception In Saving User.");
         }
         return userInfo;
     }

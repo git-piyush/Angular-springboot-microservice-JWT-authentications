@@ -11,7 +11,11 @@ import com.javatechie.service.AuthService;
 import com.javatechie.service.PasswordResetTokenService;
 import com.javatechie.service.PasswordService;
 import com.javatechie.service.UserService;
+import com.javatechie.user.UserClient;
+import com.javatechie.user.UserInfoRequest;
+import com.javatechie.user.UserRestClient;
 import com.javatechie.utils.AppConstants;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,17 +46,29 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserClient userClient;
+
+    @Autowired
+    private UserRestClient userRestClient;
 
 
+    @Transactional
     @PostMapping("/register")
     public ResponseEntity addNewUser(@RequestBody UserCredential user) {
         try {
             UserCredential userCredential = service.findByEmail(user.getEmail());
         } catch (UserDoNotExistException e) {
             //Register the user
-            user.setUserType(null);
             user.setActive(AppConstants.NO);
             UserCredential userCredential = service.saveUser(user);
+
+            UserInfoRequest userInfoRequest = new UserInfoRequest();
+            userInfoRequest.setUserid(userCredential.getId());
+            userInfoRequest.setEmail(userCredential.getEmail());
+            userInfoRequest.setName(userCredential.getName());
+            userInfoRequest.setUsertype(userCredential.getUserType());
+            String msg = userRestClient.saveUserInfoDetails(userInfoRequest);
             Response res = new Response("User with email: "+user.getEmail()+" Created.");
             return new ResponseEntity<>(res, HttpStatus.CREATED);
         }

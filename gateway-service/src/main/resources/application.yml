@@ -4,7 +4,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: student-service
+        - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/v1/user/**

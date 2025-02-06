@@ -50,6 +50,7 @@ export class LoginComponent {
     }, (err:HttpErrorResponse) => {
       if(err.status==403){
         this.snackbar.open("Either Email or Password is wrong.","Close", { duration: 5000 });
+        this.loading = false;
       }
    })}
 }

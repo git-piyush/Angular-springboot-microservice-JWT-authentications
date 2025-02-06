@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserInfoService {
 
-    UserInfo saveStudentInfo(UserInfo modelRequest);
+    UserInfo saveUserInfo(UserInfo modelRequest);
 
 }

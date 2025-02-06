@@ -15,6 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 
 export class RegisterComponent {
+  websiteList: any = ['Javatpoint.com', 'HDTuto.com', 'Tutorialandexample.com'];
   loading : boolean = false;
   registrationForm: FormGroup;
   private snackbar = inject(MatSnackBar);
@@ -25,7 +26,8 @@ export class RegisterComponent {
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      userType:['', Validators.required]
     }, { validator: this.passwordMatchValidator });
   }
 
