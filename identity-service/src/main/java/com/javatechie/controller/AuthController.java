@@ -7,7 +7,6 @@ import com.javatechie.dto.Response;
 import com.javatechie.entity.PasswordResetDetails;
 import com.javatechie.entity.UserCredential;
 import com.javatechie.exception.UserDoNotExistException;
-import com.javatechie.repository.UserCredentialRepository;
 import com.javatechie.service.AuthService;
 import com.javatechie.service.PasswordResetTokenService;
 import com.javatechie.service.PasswordService;

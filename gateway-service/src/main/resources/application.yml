@@ -5,9 +5,9 @@ spring:
     gateway:
       routes:
         - id: student-service
-          uri: lb://STUDENT-SERVICE
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/v1/student/**
+            - Path=/api/v1/user/**
           filters:
             - AuthenticationFilter
 
