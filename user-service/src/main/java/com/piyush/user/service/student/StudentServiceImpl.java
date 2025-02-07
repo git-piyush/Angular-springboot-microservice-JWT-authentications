@@ -1,17 +1,16 @@
-package com.piyush.user.serviceImpl;
+package com.piyush.user.service.student;
 
 import com.piyush.user.entity.UserInfo;
-import com.piyush.user.repository.StudentInfoRepository;
-import com.piyush.user.service.UserInfoService;
+import com.piyush.user.repository.UserInfoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserInfoServiceImpl implements UserInfoService {
+public class StudentServiceImpl implements StudentService{
 
     @Autowired
-    private StudentInfoRepository userInfoRepository;
+    private UserInfoRepository userInfoRepository;
 
     @Transactional
     @Override

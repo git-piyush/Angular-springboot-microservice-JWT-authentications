@@ -37,4 +37,4 @@ eureka:
 application:
   config:
     notification-url: http://NOTIFICATION-SERVICE/api/v1/notification
-    user-url: http://USER-SERVICE/api/v1/user
+    user-url: http://USER-SERVICE/api/v1/student
