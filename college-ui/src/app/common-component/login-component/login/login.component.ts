@@ -52,5 +52,6 @@ export class LoginComponent {
         this.snackbar.open("Either Email or Password is wrong.","Close", { duration: 5000 });
         this.loading = false;
       }
-   })}
+   })
+  }
 }

@@ -15,6 +15,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatMenuModule} from '@angular/material/menu';
 import { TeacherListComponent } from './admin-component/teacher-list/teacher-list.component';
 import { TeacherDetailsComponent } from './admin-component/teacher-details/teacher-details.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,8 @@ import { TeacherDetailsComponent } from './admin-component/teacher-details/teach
     CommonModule,
     AdminRoutingModule,
     //
+    ReactiveFormsModule,
+    FormsModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatSelectModule,

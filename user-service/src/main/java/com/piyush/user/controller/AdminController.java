@@ -3,6 +3,7 @@ package com.piyush.user.controller;
 import com.piyush.user.config.FeeServiceClient;
 import com.piyush.user.dto.StudentDTO;
 import com.piyush.user.dto.TeacherDTO;
+import com.piyush.user.dto.TeacherFilterRequest;
 import com.piyush.user.dto.UserInfoRequest;
 import com.piyush.user.fee.FeeClient;
 import com.piyush.user.service.admin.AdminService;
@@ -49,6 +50,26 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
+    @PostMapping("/teachers")
+    @Transactional
+    public ResponseEntity getTeachersByFilter(@RequestBody TeacherFilterRequest teacherFilterRequest){
+        List<TeacherDTO> allTeacher = null;
+        if(teacherFilterRequest.getFilterType().isBlank() && teacherFilterRequest.getFilterText()=="" &&
+                teacherFilterRequest.getStatusSubfilter()==""){
+            allTeacher = adminService.getAllTeacher();
+        }else{
+            allTeacher = adminService.getTeachersByFilter(teacherFilterRequest);
+        }
+        if(allTeacher!=null && !allTeacher.isEmpty()){
+            return new ResponseEntity<List<TeacherDTO>>(allTeacher, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No Data Found.", HttpStatus.NOT_FOUND);
+    }
+
+
+
+
 
     @PostMapping("/user-details")
     @Transactional

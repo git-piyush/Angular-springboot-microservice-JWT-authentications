@@ -18,6 +18,12 @@ export class AdminService {
     })
   }
 
+  teacherListByFilter(teacherFilter:any):Observable<any>{
+    return this.http.post<[]>(BASIC_URL + "api/v1/admin/teachers",teacherFilter,{
+      headers: this.createAuhtorizationHeader()
+    });
+  }
+
   deleteStudent(studentId: any): Observable<any>{
     return this.http.delete<[]>(BASIC_URL+`api/admin/student/${studentId}`,{
       headers: this.createAuhtorizationHeader()

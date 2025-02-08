@@ -2,6 +2,7 @@ package com.piyush.user.service.admin;
 
 import com.piyush.user.dto.StudentDTO;
 import com.piyush.user.dto.TeacherDTO;
+import com.piyush.user.dto.TeacherFilterRequest;
 import com.piyush.user.entity.UserInfo;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +15,5 @@ public interface AdminService {
 
     List<TeacherDTO> getAllTeacher();
 
+    List<TeacherDTO> getTeachersByFilter(TeacherFilterRequest teacherFilterRequest);
 }
