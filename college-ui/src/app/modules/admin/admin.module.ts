@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminDashboardComponent } from './admin-component/admin-dashboard/admin-dashboard.component';
-import { AddStudentComponent } from './admin-component/add-student/add-student.component';
 import { StudentListComponent } from './admin-component/student-list/student-list.component';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -14,12 +13,15 @@ import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatMenuModule} from '@angular/material/menu';
+import { TeacherListComponent } from './admin-component/teacher-list/teacher-list.component';
+import { TeacherDetailsComponent } from './admin-component/teacher-details/teacher-details.component';
 
 @NgModule({
   declarations: [
     AdminDashboardComponent,
-    AddStudentComponent,
-    StudentListComponent
+    StudentListComponent,
+    TeacherListComponent,
+    TeacherDetailsComponent
   ],
   imports: [
     CommonModule,

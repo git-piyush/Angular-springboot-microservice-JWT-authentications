@@ -24,6 +24,12 @@ export class AdminService {
     })
   }
 
+  getAllTeachers(): Observable<any>{
+    return this.http.get<[]>(BASIC_URL+"api/v1/admin/teachers",{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+
   private createAuhtorizationHeader() {
     const jwtToken = localStorage.getItem('c_token');
     if (jwtToken) {

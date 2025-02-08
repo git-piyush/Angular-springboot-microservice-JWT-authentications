@@ -2,6 +2,7 @@ package com.piyush.user.controller;
 
 import com.piyush.user.config.FeeServiceClient;
 import com.piyush.user.dto.StudentDTO;
+import com.piyush.user.dto.TeacherDTO;
 import com.piyush.user.dto.UserInfoRequest;
 import com.piyush.user.fee.FeeClient;
 import com.piyush.user.service.admin.AdminService;
@@ -34,6 +35,17 @@ public class AdminController {
         System.out.println(allStudent.size());
         if(allStudent!=null && !allStudent.isEmpty()){
             return new ResponseEntity<List<StudentDTO>>(allStudent, HttpStatus.OK);
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @GetMapping("/teachers")
+    @Transactional
+    public ResponseEntity getAllTeachers(){
+        List<TeacherDTO> allTeacher = adminService.getAllTeacher();
+        System.out.println(allTeacher.size());
+        if(allTeacher!=null && !allTeacher.isEmpty()){
+            return new ResponseEntity<List<TeacherDTO>>(allTeacher, HttpStatus.OK);
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

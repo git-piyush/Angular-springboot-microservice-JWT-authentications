@@ -15,10 +15,8 @@ const routes: Routes = [
   {path:"sendotp", component:SendotptoemailComponent},
   {path:"resetpasswordpage", component:ResetpasswordComponent},
   {path:"viewprofile", canActivate:[appGuard], component:ProfileComponent},
-  { path:"admin", loadChildren: () => import("./modules/admin/admin.module").then(m=> m.AdminModule) },
-  { path:"admindashboard", loadChildren: () => import("./modules/admin/admin.module").then(m=> m.AdminModule) },
-  { path:"studentlist", loadChildren: () => import("./modules/admin/admin.module").then(m=> m.AdminModule) },
-  { path:"addstudent", loadChildren: () => import("./modules/admin/admin.module").then(m=> m.AdminModule) }
+  { path:"admin", loadChildren: () => import("./modules/admin/admin.module").then(m=> m.AdminModule) }
+
 ];
 
 @NgModule({

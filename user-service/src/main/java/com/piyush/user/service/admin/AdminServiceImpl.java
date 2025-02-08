@@ -2,6 +2,7 @@ package com.piyush.user.service.admin;
 
 import com.piyush.user.constants.AppConstants;
 import com.piyush.user.dto.StudentDTO;
+import com.piyush.user.dto.TeacherDTO;
 import com.piyush.user.entity.UserInfo;
 import com.piyush.user.repository.UserInfoRepository;
 import jakarta.transaction.Transactional;
@@ -22,6 +23,13 @@ public class AdminServiceImpl implements AdminService{
         List<StudentDTO> allStudents = userInfoRepository.findAllByUsertype(AppConstants.USER_TYPE_STUDENT)
                 .stream().map(user-> new StudentDTO(user.getId(), user.getName(), user.getEmail())).collect(Collectors.toList());
         return allStudents;
+    }
+
+    @Override
+    public List<TeacherDTO> getAllTeacher() {
+        List<TeacherDTO> allTeachers = userInfoRepository.findAllByUsertype(AppConstants.USER_TYPE_TEACHER)
+                .stream().map(user-> new TeacherDTO(user.getId(), user.getName(), user.getEmail())).collect(Collectors.toList());
+        return allTeachers;
     }
 
 }

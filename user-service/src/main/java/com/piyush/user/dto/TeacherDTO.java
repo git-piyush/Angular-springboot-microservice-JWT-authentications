@@ -2,7 +2,7 @@ package com.piyush.user.dto;
 
 import java.util.Date;
 
-public class StudentDTO {
+public class TeacherDTO {
 
     private long id;
 
@@ -10,15 +10,31 @@ public class StudentDTO {
 
     private String email;
 
-    public StudentDTO() {
+    private String designation;
+
+    private Date doj;
+
+    private String status;
+
+    public TeacherDTO() {
 
     }
 
-    public StudentDTO(long id, String name, String email) {
+    public TeacherDTO(long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
     }
+
+    public TeacherDTO(long id, String name, String email, String designation, Date doj, String status) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.designation = designation;
+        this.doj = doj;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }
@@ -42,4 +58,5 @@ public class StudentDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

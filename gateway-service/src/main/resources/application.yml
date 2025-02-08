@@ -7,7 +7,7 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/v1/admin/**, /api/v1/user/**
+            - Path=/api/v1/admin/**, /api/v1/student/**,/api/v1/teacher/**
           filters:
             - AuthenticationFilter
           metadata:
@@ -16,6 +16,8 @@ spring:
               allowedMethods:
                 - GET
                 - POST
+                - DELETE
+                - PUT
               allowedHeaders: '*'
               maxAge: 30
 
@@ -43,6 +45,8 @@ spring:
               allowedMethods:
                 - GET
                 - POST
+                - DELETE
+                - PUT
               allowedHeaders: '*'
               maxAge: 30
 eureka:
