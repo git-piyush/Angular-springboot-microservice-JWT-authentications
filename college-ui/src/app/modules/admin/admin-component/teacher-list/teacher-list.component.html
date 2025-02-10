@@ -8,16 +8,16 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="row no-gutters">
-                                    <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                                    <div class="col-lg-2 col-md-2 col-sm-12 p-0" style="width: 10%;">
                                         <select formControlName="filterType" (change)="myFunction($event)" class="form-control" id="exampleFormControlSelect1">
-                                            <option value="" [selected] ="true">Filter</option>
+                                            <option value=""  [selected] ="true">Choose Filter</option>
                                             <option value="name">Name</option>
                                             <option value="status">Status</option>
                                             <option value="email">Email</option>
                                         </select>
                                     </div>
 
-                                    <div *ngIf="statusSelector" class="col-lg-2 col-md-2 col-sm-12 p-0">
+                                    <div *ngIf="statusSelector" class="col-lg-2 col-md-2 col-sm-12 p-0" style="width: 10%;">
                                         <select formControlName="statusSubfilter" class="form-control" id="exampleFormControlSelect1">
                                             <option value="">Status Filter</option>
                                             <option value="active">Active</option>
@@ -33,7 +33,7 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                         </button>
                                     </div>
-                                    <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                                    <div class="col-lg-1 col-md-3 col-sm-12 p-0" style="width: 10%;">
                                         <button type="reset" class="btn btn-base">
                                             Reset
                                         </button>
@@ -73,7 +73,7 @@
                                 <tr *ngFor="let teacher of teachers">
                                     <td>
                                         <img src="https://bootdey.com/img/Content/user_1.jpg" alt="">
-                                        <a routerLink="/admin/teacherdetails/{{teacher.id}}">{{ teacher.name }}</a><br>
+                                        <a routerLink="/admin/teacherdetails/{{teacher.id}}"><b>{{ teacher.name }}</b></a><br>
                                         <span class="user-subhead">Member</span>
                                     </td>
                                     <td>2013/08/12</td>
@@ -81,9 +81,9 @@
                                         <span class="label label-default">pending</span>
                                     </td>
                                     <td>
-                                        <a href="#">{{ teacher.email }}</a>
+                                        {{ teacher.email }}
                                     </td>
-                                    <td style="width: 20%;">
+                                    <td style="width: 30%;">
                                         <a href="#" class="table-link text-warning">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
@@ -100,6 +100,11 @@
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="table-link border-x-zinc-700">
+                                            <span class="fa fa-stack">
+                                                <i class="fa fa-envelope fa-stack-2x"></i>
                                             </span>
                                         </a>
                                     </td>

@@ -24,6 +24,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SendotptoemailComponent } from './common-component/sendotp-component/sendotptoemail/sendotptoemail.component';
 import { ResetpasswordComponent } from './common-component/resetpassword-component/resetpassword/resetpassword.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +57,10 @@ import { ResetpasswordComponent } from './common-component/resetpassword-compone
     MatSnackBarModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+
+    BrowserAnimationsModule,
+    MatMenuModule
   ],
   providers: [
     provideAnimationsAsync(),

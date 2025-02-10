@@ -7,3 +7,12 @@
       @apply py-1.5 px-3 text-center bg-blue-700 rounded-md text-white;
   } */
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}

@@ -55,8 +55,28 @@ export class TeacherListComponent {
         this.statusSelector = false;
       }
     }
+  isSearchFormValid():any{
+    if((this.teacherListFilterForm.value.filterType != null && 
+      this.teacherListFilterForm.value.filterText == null) || (this.teacherListFilterForm.value.filterType != '' && 
+        this.teacherListFilterForm.value.filterText == '')){
+        alert('Please add search text.');
+        return false;
+    }
+    if(this.teacherListFilterForm.value.filterType=='status'){
+        if(this.teacherListFilterForm.value.statusSubfilter == null || 
+          this.teacherListFilterForm.value.statusSubfilter == ''
+        ){
+          alert('Please add status sub filter.');
+            return false;
+        }
+    }
+    return true;
+  }
   
   teacherListByFilter(){
+    if(!this.isSearchFormValid()){
+      return;
+    }
     this.service.teacherListByFilter(this.teacherListFilterForm.value).subscribe((res)=>{
       this.isLoading = true;
         console.log(res);

@@ -55,8 +55,9 @@ public class AdminController {
     @Transactional
     public ResponseEntity getTeachersByFilter(@RequestBody TeacherFilterRequest teacherFilterRequest){
         List<TeacherDTO> allTeacher = null;
-        if(teacherFilterRequest.getFilterType().isBlank() && teacherFilterRequest.getFilterText()=="" &&
-                teacherFilterRequest.getStatusSubfilter()==""){
+        if((teacherFilterRequest.getFilterType()==null && teacherFilterRequest.getFilterText()==null &&
+                teacherFilterRequest.getStatusSubfilter()==null)||(teacherFilterRequest.getFilterType().isBlank() && teacherFilterRequest.getFilterText().isBlank() &&
+                teacherFilterRequest.getStatusSubfilter().isBlank())){
             allTeacher = adminService.getAllTeacher();
         }else{
             allTeacher = adminService.getTeachersByFilter(teacherFilterRequest);
