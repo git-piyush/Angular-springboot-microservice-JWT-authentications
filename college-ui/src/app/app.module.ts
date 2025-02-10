@@ -26,6 +26,7 @@ import { SendotptoemailComponent } from './common-component/sendotp-component/se
 import { ResetpasswordComponent } from './common-component/resetpassword-component/resetpassword/resetpassword.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -60,7 +61,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatProgressBarModule,
 
     BrowserAnimationsModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule, 
+    MatButtonModule,
   ],
   providers: [
     provideAnimationsAsync(),

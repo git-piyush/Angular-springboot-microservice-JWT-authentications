@@ -1,6 +1,7 @@
 package com.piyush.notification.controller;
 
 import com.piyush.notification.dto.RegisterNotification;
+import com.piyush.notification.dto.SimpleMailRequest;
 import com.piyush.notification.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,12 @@ public class SendEmailController {
     @GetMapping("/test")
     public ResponseEntity sendEmail(){
         emailService.sendEmail("piyush@yopmail.com","Test","Test Body");
+        return ResponseEntity.status(HttpStatus.OK).body("Email Sent");
+    }
+
+    @PostMapping("/sendmail")
+    public ResponseEntity sendEmail(@RequestBody SimpleMailRequest mailRequest){
+        emailService.sendEmail(mailRequest.getRecipientEmail(),mailRequest.getSubject(),mailRequest.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body("Email Sent");
     }
 

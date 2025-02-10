@@ -3,6 +3,7 @@ import { AdminService } from '../../admin-service/admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-teacher-list',
@@ -13,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class TeacherListComponent {
   teacherListFilterForm: FormGroup | undefined;
+  draftMailForm: FormGroup | undefined;
   teachers: any;
   statusSelector : boolean = false;
   filterSelector : boolean = true;
@@ -22,7 +24,8 @@ export class TeacherListComponent {
   constructor(
     private service : AdminService,
     private snackbar : MatSnackBar,
-    private fb : FormBuilder
+    private fb : FormBuilder,
+    private dialog: MatDialog
   ){}
 
   ngOnInit(){
@@ -30,6 +33,11 @@ export class TeacherListComponent {
       filterType:['', Validators.required],
       statusSubfilter:['',Validators.required],
       filterText:['', [Validators.required, Validators.minLength(3)]]
+    })
+    this.draftMailForm = this.fb.group({
+      recipientEmail:['', Validators.required],
+      message:['',Validators.required],
+      subject:['', Validators.required]
     })
     this.filter();
     this.getAllTeachers();
@@ -82,6 +90,7 @@ export class TeacherListComponent {
         console.log(res);
         if(res!=null){
           this.teachers = res;
+          this.isLoading = false;
           this.snackbar.open("Teachers retrieved successfully.", "Close",{duration:5000});
         }
     }, (err:HttpErrorResponse) => {
@@ -98,6 +107,52 @@ export class TeacherListComponent {
       }
    })
     this.isLoading = false;
+  }
+
+  displayStyle = "none"; 
+  
+  openPopup(email:any) {
+    this.draftMailForm.value.recipientEmail=email;
+    const student = this.draftMailForm.value;
+    this.draftMailForm.patchValue(student);
+    this.displayStyle = "block";
+  }
+  
+  sendMail(){
+    console.log(this.draftMailForm.value);
+    this.service.sendSimpleMail(this.draftMailForm.value).subscribe((res)=>{
+      this.isLoading = true;
+        if(res!=null){
+          this.snackbar.open("Email Sent.", "Close",{duration:5000});
+          this.closePopup();
+        }
+    }, (err:HttpErrorResponse) => {
+      console.log(err);
+      if(err.status==403){
+        this.snackbar.open("Either Email or Password is wrong.","Close", { duration: 5000 });
+        this.isLoading = false;
+        this.closePopup();
+      }
+      if(err.status==404){
+        this.teachers = null;
+        console.log(err);
+        this.snackbar.open(err.error,"Close", { duration: 5000 });
+        this.isLoading = false;
+        this.closePopup();
+      }
+      if(err.status==200){
+        this.teachers = null;
+        console.log(err);
+        this.snackbar.open('Email has been sent.',"Close", { duration: 5000 });
+        this.isLoading = false;
+        this.closePopup();
+        this.getAllTeachers();
+      }
+   })
+    this.isLoading = false;
+  }
+  closePopup() {
+    this.displayStyle = "none"; 
   }
 
 

@@ -16,6 +16,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import { TeacherListComponent } from './admin-component/teacher-list/teacher-list.component';
 import { TeacherDetailsComponent } from './admin-component/teacher-details/teacher-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AppComponent } from '../../app.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatMenuModule
-  ]
+    MatMenuModule,
+    MatDialogModule,
+    MatProgressBarModule
+  ],
+  providers:[],
+  bootstrap:[AppComponent]
 })
 export class AdminModule { }

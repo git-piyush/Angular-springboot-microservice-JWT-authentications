@@ -34,6 +34,16 @@ spring:
             - Path=/api/v1/notification/**
           filters:
             - AuthenticationFilter
+          metadata:
+            cors:
+              allowedOrigins: "*"
+              allowedMethods:
+                - GET
+                - POST
+                - DELETE
+                - PUT
+              allowedHeaders: '*'
+              maxAge: 30
 
         - id: identity-service
           uri: lb://IDENTITY-SERVICE
