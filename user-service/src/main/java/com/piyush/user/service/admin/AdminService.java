@@ -1,8 +1,6 @@
 package com.piyush.user.service.admin;
 
-import com.piyush.user.dto.StudentDTO;
-import com.piyush.user.dto.TeacherDTO;
-import com.piyush.user.dto.TeacherFilterRequest;
+import com.piyush.user.dto.*;
 import com.piyush.user.entity.UserInfo;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +9,9 @@ import java.util.List;
 @Service
 public interface AdminService {
 
-    List<StudentDTO> getAllStudent();
+    AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir);
 
-    List<TeacherDTO> getAllTeacher();
+    AllTeachersResponse getAllTeacher(int pageNo, int pageSize, String sortBy, String sortDir);
 
-    List<TeacherDTO> getTeachersByFilter(TeacherFilterRequest teacherFilterRequest);
+    AllTeachersResponse getTeachersByFilter(int pageNo, int pageSize, String sortBy, String sortDir,TeacherFilterRequest teacherFilterRequest);
 }

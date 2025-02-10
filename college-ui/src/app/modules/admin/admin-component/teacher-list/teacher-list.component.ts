@@ -18,6 +18,10 @@ export class TeacherListComponent {
   teachers: any;
   statusSelector : boolean = false;
   filterSelector : boolean = true;
+  items: any[] = [];
+  currentPage = 0;
+  pageSize = 10;
+  totalPages = 0;
 
   isLoading:boolean=false;
 
@@ -50,7 +54,7 @@ export class TeacherListComponent {
   getAllTeachers(){
     this.isLoading = true;
     this.service.getAllTeachers().subscribe((res)=>{
-      this.teachers = res;
+      this.teachers = res.content;
       this.isLoading
     })
     this.isLoading = false;
@@ -89,7 +93,7 @@ export class TeacherListComponent {
       this.isLoading = true;
         console.log(res);
         if(res!=null){
-          this.teachers = res;
+          this.teachers = res.content;
           this.isLoading = false;
           this.snackbar.open("Teachers retrieved successfully.", "Close",{duration:5000});
         }
@@ -154,6 +158,5 @@ export class TeacherListComponent {
   closePopup() {
     this.displayStyle = "none"; 
   }
-
 
 }

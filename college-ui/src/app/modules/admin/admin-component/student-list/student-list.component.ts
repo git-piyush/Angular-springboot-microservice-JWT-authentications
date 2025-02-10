@@ -25,7 +25,7 @@ export class StudentListComponent {
 
   getAllStudents(){
     this.service.getAllStudents().subscribe((res)=>{
-      this.students = res;
+      this.students = res.content;
     })
   }
 
