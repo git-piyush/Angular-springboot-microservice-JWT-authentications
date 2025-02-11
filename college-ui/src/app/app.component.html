@@ -48,23 +48,25 @@
         
         <div *ngIf="isAdminLoggedIn">
           
-          <button style="color: white;" mat-button [matMenuTriggerFor]="teacherservice">Teacher Service</button>
+          <button style="color: white;" mat-button [matMenuTriggerFor]="teacherservice" class="py-1 px-4">Teacher Service</button>
             <mat-menu #teacherservice="matMenu">
               <button mat-menu-item routerLink="/admin/teacherlist" routerLinkActive="active">All Teacher</button>
               <button mat-menu-item>Item 2</button>
               <button mat-menu-item>Item 3</button>
             </mat-menu>
 
-          <button style="color: white;" mat-button [matMenuTriggerFor]="studentservice" class="py-1 px-3 text-gray-100">Student Service</button>
+          <button style="color: white;" mat-button [matMenuTriggerFor]="studentservice" class="py-1 px-4 text-gray-100">Student Service</button>
             <mat-menu #studentservice="matMenu">
               <button mat-menu-item routerLink="/admin/studentlist" routerLinkActive="active">All Student</button>
               <button mat-menu-item>Item 2</button>
               <button mat-menu-item>Item 3</button>
-            </mat-menu> 
+            </mat-menu>
+
+            <a routerLink="/admin/user-list" href="#" class="py-5 px-3 text-gray-100">Registered User</a>
           
       </div>
         
-        <a routerLink="/admin/addcustomer" href="#" class="py-5 px-3 text-gray-100">Work</a>
+        
         <a href="#" class="py-5 px-3 text-gray-100">Experience</a>
         <a href="#" class="py-5 px-3 text-gray-100">Contact</a>
       </div>

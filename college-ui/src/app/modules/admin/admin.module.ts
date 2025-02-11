@@ -19,13 +19,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from '../../app.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
+import { RegistereduserListComponent } from './admin-component/registereduser-list/registereduser-list.component';
 @NgModule({
   declarations: [
     AdminDashboardComponent,
     StudentListComponent,
     TeacherListComponent,
-    TeacherDetailsComponent
+    TeacherDetailsComponent,
+    RegistereduserListComponent
   ],
   imports: [
     CommonModule,

@@ -20,6 +20,42 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     private UserInfoRepository userInfoRepository;
 
+
+    @Override
+    public AllStudentsResponse findByActiveAndNameContainingOrEmailContaining(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText) {
+
+        String name=null;// = filterText;
+        String email=null;// = filterText;
+
+        if(filterText != null && filterType.equalsIgnoreCase("name")){
+            name = filterText;
+        } else if (filterText != null && filterType.equalsIgnoreCase("email")) {
+            email = filterText;
+        }
+
+        Sort sort = sortDir.equalsIgnoreCase("ASC")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<UserInfo> page = null;
+        if(filterType==null || filterType=="" || filterType.isEmpty()){
+            page = userInfoRepository.findAllByActive(AppConstants.HOLD,pageable);
+        }else{
+            page = userInfoRepository.findByActiveAndNameContainingOrEmailContaining(AppConstants.HOLD,name,email,pageable);
+        }
+
+        //get the content from page
+        List<UserInfo> studentList = page.getContent();
+        List<StudentDTO> allStudents = studentList.stream().map(user-> new StudentDTO(user.getId(), user.getName(), user.getEmail(), user.getDoj(),user.getActive())).collect(Collectors.toList());
+
+        AllStudentsResponse res = new AllStudentsResponse();
+        res.setContent(allStudents);
+        res.setPageNo(page.getNumber());
+        res.setPageSize(page.getSize());
+        res.setLast(page.isLast());
+        res.setTotalElements(page.getTotalElements());
+        res.setTotalPages(page.getTotalPages());
+        return res;
+    }
+
     @Override
     public AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText) {
 
@@ -37,7 +73,7 @@ public class AdminServiceImpl implements AdminService{
 
         //get the content from page
         List<UserInfo> studentList = page.getContent();
-        List<StudentDTO> allStudents = studentList.stream().map(user-> new StudentDTO(user.getId(), user.getName(), user.getEmail())).collect(Collectors.toList());
+        List<StudentDTO> allStudents = studentList.stream().map(user-> new StudentDTO(user.getId(), user.getName(), user.getEmail(), user.getDoj(), user.getActive())).collect(Collectors.toList());
 
         AllStudentsResponse res = new AllStudentsResponse();
         res.setContent(allStudents);
@@ -62,7 +98,8 @@ public class AdminServiceImpl implements AdminService{
         //get the content from page
         List<UserInfo> teacherList = page.getContent();
 
-        List<TeacherDTO> allTeachers = teacherList.stream().map(user-> new TeacherDTO(user.getId(), user.getName(), user.getEmail())).collect(Collectors.toList());
+        List<TeacherDTO> allTeachers = teacherList.stream().map(user-> new TeacherDTO(user.getId(), user.getName(), user.getEmail(),
+                user.getDoj(), user.getActive())).collect(Collectors.toList());
 
         AllTeachersResponse res = new AllTeachersResponse();
         res.setContent(allTeachers);
@@ -93,7 +130,7 @@ public class AdminServiceImpl implements AdminService{
 
         List<UserInfo> teacherList = page.getContent();
 
-        List<TeacherDTO> allTeachers = teacherList.stream().map(user-> new TeacherDTO(user.getId(), user.getName(), user.getEmail())).collect(Collectors.toList());
+        List<TeacherDTO> allTeachers = teacherList.stream().map(user-> new TeacherDTO(user.getId(), user.getName(), user.getEmail(), user.getDoj(), user.getActive())).collect(Collectors.toList());
 
         AllTeachersResponse res = new AllTeachersResponse();
         res.setContent(allTeachers);

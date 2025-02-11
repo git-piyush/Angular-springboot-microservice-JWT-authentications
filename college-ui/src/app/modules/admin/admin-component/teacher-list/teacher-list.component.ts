@@ -88,13 +88,12 @@ export class TeacherListComponent {
   }
   
   teacherListByFilter(){
+    this.isLoading = true;
     if(!this.isSearchFormValid()){
       return;
     }
     this.currentPage = 0;
     this.service.teacherListByFilter(this.currentPage,this.pageSize,this.teacherListFilterForm.value).subscribe((res)=>{
-      this.isLoading = true;
-        console.log(res);
         if(res!=null){
           this.teachers = res.content;
           this.totalElements = res.totalElements;
@@ -115,7 +114,6 @@ export class TeacherListComponent {
         this.isLoading = false;
       }
    })
-    this.isLoading = false;
   }
 
   displayStyle = "none"; 
@@ -127,6 +125,7 @@ export class TeacherListComponent {
   }
   
   sendMail(){
+    this.isLoading = true;
     console.log(this.draftMailForm.value);
     this.service.sendSimpleMail(this.draftMailForm.value).subscribe((res)=>{
       this.isLoading = true;
@@ -157,9 +156,11 @@ export class TeacherListComponent {
         this.getAllTeachers(this.currentPage,this.pageSize);
       }
    })
-    this.isLoading = false;
   }
   closePopup() {
+    this.isLoading = false;
+    this.draftMailForm.value.subject=null;
+    this.draftMailForm.value.message=null;
     this.displayStyle = "none"; 
   }
 

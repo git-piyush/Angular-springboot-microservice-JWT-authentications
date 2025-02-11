@@ -5,12 +5,14 @@ import { AdminDashboardComponent } from './admin-component/admin-dashboard/admin
 import { StudentListComponent } from './admin-component/student-list/student-list.component';
 import { TeacherListComponent } from './admin-component/teacher-list/teacher-list.component';
 import { TeacherDetailsComponent } from './admin-component/teacher-details/teacher-details.component';
+import { RegistereduserListComponent } from './admin-component/registereduser-list/registereduser-list.component';
 
 const routes: Routes = [
   { path:'studentlist', canActivate:[adminGuard] ,component:StudentListComponent },
   { path:'admindashboard', canActivate:[adminGuard], component:AdminDashboardComponent},
   { path:'teacherlist', canActivate:[adminGuard],component:TeacherListComponent},
-  { path:'teacherdetails/:teacherId', canActivate:[adminGuard],component:TeacherDetailsComponent}
+  { path:'teacherdetails/:teacherId', canActivate:[adminGuard],component:TeacherDetailsComponent},
+  { path:'user-list', canActivate:[adminGuard],component:RegistereduserListComponent},
 ];
 
 @NgModule({

@@ -27,6 +27,23 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @GetMapping("/registereduser")
+    @Transactional
+    public ResponseEntity findAllusersByActiveAndNameContainingOrEmailContaining(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+                                         @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                         @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                                         @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIR, required = false) String sortDir,
+                                         @RequestParam(value = "filterType", required = false) String filterType,
+                                         @RequestParam(value = "statusSubfilter", required = false) String statusSubfilter,
+                                         @RequestParam(value = "filterText", required = false) String filterText){
+
+        AllStudentsResponse allStudent = adminService.findByActiveAndNameContainingOrEmailContaining(pageNo, pageSize, sortBy, sortDir, filterType,statusSubfilter,filterText);
+        if(allStudent.getContent()!=null && !allStudent.getContent().isEmpty()){
+            return new ResponseEntity<>(allStudent, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No Data Found.", HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping("/students")
     @Transactional
     public ResponseEntity getAllStudents(@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -37,9 +54,6 @@ public class AdminController {
                                          @RequestParam(value = "statusSubfilter", required = false) String statusSubfilter,
                                          @RequestParam(value = "filterText", required = false) String filterText){
 
-        System.out.println(filterType);
-        System.out.println(filterText);
-        System.out.println(statusSubfilter);
 
         AllStudentsResponse allStudent = adminService.getAllStudent(pageNo, pageSize, sortBy, sortDir, filterType,statusSubfilter,filterText);
         if(allStudent.getContent()!=null && !allStudent.getContent().isEmpty()){

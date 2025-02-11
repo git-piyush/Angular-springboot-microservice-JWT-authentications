@@ -12,6 +12,10 @@ import java.util.List;
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 
+    Page<UserInfo> findByActiveAndNameContainingOrEmailContaining(String active,String name, String email,Pageable pageable);
+
+    Page<UserInfo> findAllByActive(String active, Pageable pageable);
+
     Page<UserInfo> findAllByUsertype(String usertype, Pageable pageable);
 
     @Query("SELECT user FROM UserInfo user WHERE user.usertype = ?1 AND user.name = ?2 OR user.email = ?3")

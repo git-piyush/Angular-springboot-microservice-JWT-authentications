@@ -26,11 +26,10 @@ public class TeacherDTO {
         this.email = email;
     }
 
-    public TeacherDTO(long id, String name, String email, String designation, Date doj, String status) {
+    public TeacherDTO(long id, String name, String email, Date doj, String status) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.designation = designation;
         this.doj = doj;
         this.status = status;
     }
@@ -59,4 +58,27 @@ public class TeacherDTO {
         this.email = email;
     }
 
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public Date getDoj() {
+        return doj;
+    }
+
+    public void setDoj(Date doj) {
+        this.doj = doj;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

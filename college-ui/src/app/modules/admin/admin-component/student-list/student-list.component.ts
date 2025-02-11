@@ -36,7 +36,6 @@ export class StudentListComponent {
   }
 
   ngOnInit(){
-
     this.studentListFilterForm = this.fb.group({
       filterType:['', Validators.required],
       statusSubfilter:['',Validators.required],
@@ -64,7 +63,9 @@ export class StudentListComponent {
   }
 
   studentListByFilter(){
+    this.isLoading = true;
     if(!this.isSearchFormValid()){
+      this.isLoading = false;
       return;
     }
     if(this.isSearchFilterFormEmpty()){
@@ -73,7 +74,6 @@ export class StudentListComponent {
     }
     this.currentPage = 0;
     this.service.studentListByFilter(this.currentPage,this.pageSize,this.studentListFilterForm.value.filterType,this.studentListFilterForm.value.statusSubfilter,this.studentListFilterForm.value.filterText).subscribe((res)=>{
-      this.isLoading = true;
         console.log(res);
         if(res!=null){
           this.students = res.content;
@@ -117,11 +117,13 @@ export class StudentListComponent {
   }
 
   getAllStudents(pageNo:number, pageSize:number){
+    this.isLoading = true;
     this.service.getAllStudents(pageNo, pageSize).subscribe((res)=>{
       this.students = res.content;
       this.totalElements = res.totalElements;
       this.pageSize = res.pageSize;
     })
+    this.isLoading = false;
   }
 
   deleteStudent(studentId: number){

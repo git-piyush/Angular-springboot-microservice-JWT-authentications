@@ -10,14 +10,20 @@ public class StudentDTO {
 
     private String email;
 
+    private Date doj;
+
+    private String status;
+
     public StudentDTO() {
 
     }
 
-    public StudentDTO(long id, String name, String email) {
+    public StudentDTO(long id, String name, String email, Date doj, String status) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.doj = doj;
+        this.status = status;
     }
     public long getId() {
         return id;
@@ -41,5 +47,21 @@ public class StudentDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getDoj() {
+        return doj;
+    }
+
+    public void setDoj(Date doj) {
+        this.doj = doj;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 @Service
 public interface AdminService {
 
+    AllStudentsResponse findByActiveAndNameContainingOrEmailContaining(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText);
+
     AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText);
 
     AllTeachersResponse getAllTeacher(int pageNo, int pageSize, String sortBy, String sortDir);
