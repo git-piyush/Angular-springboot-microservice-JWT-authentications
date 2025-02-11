@@ -24,6 +24,12 @@ public class UserInfo {
 
     private String phone;
 
+    private Date doj;
+
+    private String gender;
+
+    private String active;
+
     @OneToOne(mappedBy = "userInfo",fetch = FetchType.EAGER)
     private Address address;
 
@@ -89,5 +95,29 @@ public class UserInfo {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Date getDoj() {
+        return doj;
+    }
+
+    public void setDoj(Date doj) {
+        this.doj = doj;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
     }
 }

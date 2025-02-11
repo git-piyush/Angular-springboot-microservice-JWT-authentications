@@ -18,6 +18,26 @@ public class UserInfoRequest {
 
     private String usertype;
 
+    public Date getDoj() {
+        return doj;
+    }
+
+    public void setDoj(Date doj) {
+        this.doj = doj;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    private Date doj;
+
+    private String gender;
+
     public Long getId() {
         return id;
     }

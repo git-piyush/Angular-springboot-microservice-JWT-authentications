@@ -1,12 +1,11 @@
 package com.javatechie.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Entity
 @Data
@@ -22,4 +21,7 @@ public class UserCredential {
     private String password;
     private String userType;
     private String active;
+    private String gender;
+    private Date dor;
+    private Date doa;
 }

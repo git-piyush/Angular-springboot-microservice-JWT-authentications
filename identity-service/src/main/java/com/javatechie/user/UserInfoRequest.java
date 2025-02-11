@@ -16,4 +16,6 @@ public class UserInfoRequest {
 
     private String email;
 
+    private String gender;
+
 }

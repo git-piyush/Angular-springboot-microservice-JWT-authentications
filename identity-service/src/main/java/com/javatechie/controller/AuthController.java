@@ -25,6 +25,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -61,6 +63,8 @@ public class AuthController {
         } catch (UserDoNotExistException e) {
             //Register the user
             user.setActive(AppConstants.NO);
+            user.setDor(new Date());  //date of registration
+            user.setDoa(null);  //date of activation
             UserCredential userCredential = service.saveUser(user);
 
             UserInfoRequest userInfoRequest = new UserInfoRequest();
@@ -68,6 +72,8 @@ public class AuthController {
             userInfoRequest.setEmail(userCredential.getEmail());
             userInfoRequest.setName(userCredential.getName());
             userInfoRequest.setUsertype(userCredential.getUserType());
+            userInfoRequest.setGender(userCredential.getGender());
+
             String msg = userRestClient.saveUserInfoDetails(userInfoRequest);
             Response res = new Response("User with email: "+user.getEmail()+" Created.");
             return new ResponseEntity<>(res, HttpStatus.CREATED);

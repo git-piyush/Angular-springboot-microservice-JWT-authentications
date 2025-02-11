@@ -1,6 +1,7 @@
 package com.piyush.user.controller;
 
 import com.piyush.user.config.FeeServiceClient;
+import com.piyush.user.constants.AppConstants;
 import com.piyush.user.dto.UserInfoRequest;
 import com.piyush.user.entity.UserInfo;
 import com.piyush.user.fee.FeeClient;
@@ -38,6 +39,9 @@ public class StudentController {
         userInfo.setEmail(modelRequest.getEmail());
         userInfo.setName(modelRequest.getName());
         userInfo.setUsertype(modelRequest.getUsertype());
+        userInfo.setGender(modelRequest.getGender());
+        userInfo.setActive(AppConstants.NO);
+        userInfo.setDoj(null); //since this method will get called from identity service during registration, and that time doj will be bull
         UserInfo newUer = studentService.saveUserInfo(userInfo);
         return new ResponseEntity<>("User Info Saved.", HttpStatus.OK);
     }
