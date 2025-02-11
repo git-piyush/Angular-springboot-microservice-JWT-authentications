@@ -14,7 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './student-list.component.scss'
 })
 export class StudentListComponent {
-  teacherListFilterForm: FormGroup | undefined;
+  studentListFilterForm: FormGroup | undefined;
   students: any;
   statusSelector : boolean = false;
   filterSelector : boolean = true;
@@ -31,17 +31,19 @@ export class StudentListComponent {
     private snackbar : MatSnackBar,
     private fb : FormBuilder,
     private dialog: MatDialog
-  ){}
+  ){
+    this.Math = Math;
+  }
 
   ngOnInit(){
 
-    this.teacherListFilterForm = this.fb.group({
+    this.studentListFilterForm = this.fb.group({
       filterType:['', Validators.required],
       statusSubfilter:['',Validators.required],
       filterText:['', [Validators.required, Validators.minLength(3)]]
     })
 
-    this.getAllStudents();
+    this.getAllStudents(this.currentPage,this.pageSize);
   }
 
   myFunction(val: Event) {
@@ -52,12 +54,25 @@ export class StudentListComponent {
     }
   }
 
+  isSearchFilterFormEmpty():any{
+    if(this.studentListFilterForm.value.filterType==null
+        && this.studentListFilterForm.value.statusSubfilter==null
+          && this.studentListFilterForm.value.filterText==null
+    ){
+      return true;
+    }
+  }
+
   studentListByFilter(){
     if(!this.isSearchFormValid()){
       return;
     }
+    if(this.isSearchFilterFormEmpty()){
+      this.getAllStudents(this.currentPage,this.pageSize);
+      return;
+    }
     this.currentPage = 0;
-    this.service.teacherListByFilter(this.currentPage,this.pageSize,this.teacherListFilterForm.value).subscribe((res)=>{
+    this.service.studentListByFilter(this.currentPage,this.pageSize,this.studentListFilterForm.value.filterType,this.studentListFilterForm.value.statusSubfilter,this.studentListFilterForm.value.filterText).subscribe((res)=>{
       this.isLoading = true;
         console.log(res);
         if(res!=null){
@@ -65,12 +80,12 @@ export class StudentListComponent {
           this.totalElements = res.totalElements;
           this.pageSize = res.pageSize;
           this.isLoading = false;
-          this.snackbar.open("Teachers retrieved successfully.", "Close",{duration:5000});
+          this.snackbar.open("Student retrieved successfully.", "Close",{duration:5000});
         }
     }, (err:HttpErrorResponse) => {
       console.log(err);
       if(err.status==403){
-        this.snackbar.open("Either Email or Password is wrong.","Close", { duration: 5000 });
+        this.snackbar.open("Some Error Occured.","Close", { duration: 5000 });
         this.isLoading = false;
       }
       if(err.status==404){
@@ -84,15 +99,15 @@ export class StudentListComponent {
   }
 
   isSearchFormValid():any{
-    if((this.teacherListFilterForm.value.filterType != null && 
-      this.teacherListFilterForm.value.filterText == null) || (this.teacherListFilterForm.value.filterType != '' && 
-        this.teacherListFilterForm.value.filterText == '')){
+    if((this.studentListFilterForm.value.filterType != null && 
+      this.studentListFilterForm.value.filterText == null) || (this.studentListFilterForm.value.filterType != '' && 
+        this.studentListFilterForm.value.filterText == '')){
         alert('Please add search text.');
         return false;
     }
-    if(this.teacherListFilterForm.value.filterType=='status'){
-        if(this.teacherListFilterForm.value.statusSubfilter == null || 
-          this.teacherListFilterForm.value.statusSubfilter == ''
+    if(this.studentListFilterForm.value.filterType=='status'){
+        if(this.studentListFilterForm.value.statusSubfilter == null || 
+          this.studentListFilterForm.value.statusSubfilter == ''
         ){
           alert('Please add status sub filter.');
             return false;
@@ -101,9 +116,11 @@ export class StudentListComponent {
     return true;
   }
 
-  getAllStudents(){
-    this.service.getAllStudents().subscribe((res)=>{
+  getAllStudents(pageNo:number, pageSize:number){
+    this.service.getAllStudents(pageNo, pageSize).subscribe((res)=>{
       this.students = res.content;
+      this.totalElements = res.totalElements;
+      this.pageSize = res.pageSize;
     })
   }
 
@@ -111,9 +128,30 @@ export class StudentListComponent {
     if(confirm("Are you sure about this deletion?")){
       this.service.deleteStudent(studentId).subscribe((res)=>{
         console.log("pk"+res);
-        this.getAllStudents();
+        //this.getAllStudents(pageNo:number, pageSize:number);
         this.snackbar.open("Student deleted successfully","Close",{duration:5000})
       })
+    }
+  }
+
+  onPageSizeChange(event: any): void {
+    this.pageSize = event.target.value;
+    this.currentPage = 0;
+    this.getAllStudents(this.currentPage,this.pageSize);
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.getAllStudents(this.currentPage,this.pageSize);
+    }
+  }
+
+  goToNextPage(): void {
+    const totalPages = Math.ceil(this.totalElements / this.pageSize);
+    if (this.currentPage < totalPages - 1) {
+      this.currentPage++;
+      this.getAllStudents(this.currentPage,this.pageSize);
     }
   }
 

@@ -21,12 +21,20 @@ public class AdminServiceImpl implements AdminService{
     private UserInfoRepository userInfoRepository;
 
     @Override
-    public AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText) {
+
+        String name = filterText;
+        String email = filterText;
 
         Sort sort = sortDir.equalsIgnoreCase("ASC")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
-        //create pageable instance
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<UserInfo> page = userInfoRepository.findAllByUsertype(AppConstants.USER_TYPE_STUDENT,pageable);
+        Page<UserInfo> page = null;
+        if(filterType==null){
+             page = userInfoRepository.findAllByUsertype(AppConstants.USER_TYPE_STUDENT,pageable);
+        }else{
+             page = userInfoRepository.findByUsertypeAndNameContainingOrEmailContaining(AppConstants.USER_TYPE_STUDENT,name,email,pageable);
+        }
+
         //get the content from page
         List<UserInfo> studentList = page.getContent();
         List<StudentDTO> allStudents = studentList.stream().map(user-> new StudentDTO(user.getId(), user.getName(), user.getEmail())).collect(Collectors.toList());

@@ -12,8 +12,15 @@ export class AdminService {
 
   constructor(private http:HttpClient) { }
 
-  getAllStudents(): Observable<any>{
-    return this.http.get<[]>(BASIC_URL+"api/v1/admin/students",{
+  studentListByFilter(pageNo:number, pageSize:number, filterType:string, statusSubfilter:string, filterText:string): Observable<any>{
+    return this.http.get<[]>(BASIC_URL+"api/v1/admin/students?pageNo="+pageNo+"&pageSize="+pageSize+"&filterType="+filterType+
+      "&statusSubfilter="+statusSubfilter+"&filterText="+filterText,{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+
+  getAllStudents(pageNo:number, pageSize:number): Observable<any>{
+    return this.http.get<[]>(BASIC_URL+"api/v1/admin/students?pageNo="+pageNo+"&pageSize="+pageSize,{
       headers: this.createAuhtorizationHeader()
     })
   }

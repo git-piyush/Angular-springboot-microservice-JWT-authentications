@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface AdminService {
 
-    AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir);
+    AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText);
 
     AllTeachersResponse getAllTeacher(int pageNo, int pageSize, String sortBy, String sortDir);
 
