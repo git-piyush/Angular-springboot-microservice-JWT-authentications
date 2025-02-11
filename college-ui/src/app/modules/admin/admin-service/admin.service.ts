@@ -18,8 +18,8 @@ export class AdminService {
     })
   }
 
-  teacherListByFilter(teacherFilter:any):Observable<any>{
-    return this.http.post<[]>(BASIC_URL + "api/v1/admin/teachers",teacherFilter,{
+  teacherListByFilter(pageNo:number, pageSize:number,teacherFilter:any):Observable<any>{
+    return this.http.post<[]>(BASIC_URL + "api/v1/admin/teachers?pageNo="+pageNo+"&pageSize="+pageSize,teacherFilter,{
       headers: this.createAuhtorizationHeader()
     });
   }
@@ -36,8 +36,8 @@ export class AdminService {
     })
   }
 
-  getAllTeachers(): Observable<any>{
-    return this.http.get<[]>(BASIC_URL+"api/v1/admin/teachers",{
+  getAllTeachers(pageNo:number, pageSize:number): Observable<any>{
+    return this.http.get<[]>(BASIC_URL+"api/v1/admin/teachers?pageNo="+pageNo+"&pageSize="+pageSize,{
       headers: this.createAuhtorizationHeader()
     })
   }

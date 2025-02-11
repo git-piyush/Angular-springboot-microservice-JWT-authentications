@@ -122,6 +122,30 @@
 </div>
 
 
+  <div class="flex justify-center mt-4">
+
+    <label for="pageSize" class="font-semibold mr-2">Page Size:</label>
+    <select id="pageSize" (change)="onPageSizeChange($event)"
+      class="border p-2 rounded">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+
+    <button (click)="goToPreviousPage()" 
+      class="px-4 py-2 mx-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+      [disabled]="currentPage === 0">
+      Previous
+    </button>
+
+    <span class="px-4 py-2">
+      {{ currentPage + 1 }} / {{ totalElements ? Math.ceil(totalElements / pageSize) : 1 }}
+    </span>
+
+    <button (click)="goToNextPage()" 
+      class="px-4 py-2 mx-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+      [disabled]="currentPage >= (totalElements / pageSize) - 1">
+      Next
+    </button>
+  </div>
 
 
 <!-- Below is the code to open a popup form to draft an email. -->

@@ -18,19 +18,23 @@ export class TeacherListComponent {
   teachers: any;
   statusSelector : boolean = false;
   filterSelector : boolean = true;
-  items: any[] = [];
+  totalElements = 0;
+  pageSize = 3;
   currentPage = 0;
-  pageSize = 10;
-  totalPages = 0;
+  pageSizeOptions = [3, 6, 12];
 
   isLoading:boolean=false;
+  Math: any;
 
   constructor(
     private service : AdminService,
     private snackbar : MatSnackBar,
     private fb : FormBuilder,
     private dialog: MatDialog
-  ){}
+    
+  ){
+    this.Math = Math;
+  }
 
   ngOnInit(){
     this.teacherListFilterForm = this.fb.group({
@@ -43,18 +47,15 @@ export class TeacherListComponent {
       message:['',Validators.required],
       subject:['', Validators.required]
     })
-    this.filter();
-    this.getAllTeachers();
+    this.getAllTeachers(this.currentPage,this.pageSize);
   }
 
-  filter(){
-    this.filterSelector = true;
-  }
-
-  getAllTeachers(){
+  getAllTeachers(pageNo:number, pageSize:number){
     this.isLoading = true;
-    this.service.getAllTeachers().subscribe((res)=>{
+    this.service.getAllTeachers(pageNo,pageSize).subscribe((res)=>{
       this.teachers = res.content;
+      this.totalElements = res.totalElements;
+      this.pageSize = res.pageSize;
       this.isLoading
     })
     this.isLoading = false;
@@ -67,6 +68,7 @@ export class TeacherListComponent {
         this.statusSelector = false;
       }
     }
+
   isSearchFormValid():any{
     if((this.teacherListFilterForm.value.filterType != null && 
       this.teacherListFilterForm.value.filterText == null) || (this.teacherListFilterForm.value.filterType != '' && 
@@ -89,11 +91,14 @@ export class TeacherListComponent {
     if(!this.isSearchFormValid()){
       return;
     }
-    this.service.teacherListByFilter(this.teacherListFilterForm.value).subscribe((res)=>{
+    this.currentPage = 0;
+    this.service.teacherListByFilter(this.currentPage,this.pageSize,this.teacherListFilterForm.value).subscribe((res)=>{
       this.isLoading = true;
         console.log(res);
         if(res!=null){
           this.teachers = res.content;
+          this.totalElements = res.totalElements;
+          this.pageSize = res.pageSize;
           this.isLoading = false;
           this.snackbar.open("Teachers retrieved successfully.", "Close",{duration:5000});
         }
@@ -114,7 +119,6 @@ export class TeacherListComponent {
   }
 
   displayStyle = "none"; 
-  
   openPopup(email:any) {
     this.draftMailForm.value.recipientEmail=email;
     const student = this.draftMailForm.value;
@@ -150,13 +154,35 @@ export class TeacherListComponent {
         this.snackbar.open('Email has been sent.',"Close", { duration: 5000 });
         this.isLoading = false;
         this.closePopup();
-        this.getAllTeachers();
+        this.getAllTeachers(this.currentPage,this.pageSize);
       }
    })
     this.isLoading = false;
   }
   closePopup() {
     this.displayStyle = "none"; 
+  }
+
+
+  onPageSizeChange(event: any): void {
+    this.pageSize = event.target.value;
+    this.currentPage = 0;
+    this.getAllTeachers(this.currentPage,this.pageSize);
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.getAllTeachers(this.currentPage,this.pageSize);
+    }
+  }
+
+  goToNextPage(): void {
+    const totalPages = Math.ceil(this.totalElements / this.pageSize);
+    if (this.currentPage < totalPages - 1) {
+      this.currentPage++;
+      this.getAllTeachers(this.currentPage,this.pageSize);
+    }
   }
 
 }

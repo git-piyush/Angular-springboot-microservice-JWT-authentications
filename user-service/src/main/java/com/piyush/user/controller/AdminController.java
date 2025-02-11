@@ -34,7 +34,7 @@ public class AdminController {
                                          @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                                          @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIR, required = false) String sortDir){
         AllStudentsResponse allStudent = adminService.getAllStudent(pageNo, pageSize, sortBy, sortDir);
-        if(allStudent.getContent()!=null && allStudent.getContent().size()>0){
+        if(allStudent.getContent()!=null && !allStudent.getContent().isEmpty()){
             return new ResponseEntity<>(allStudent, HttpStatus.OK);
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -47,7 +47,7 @@ public class AdminController {
                                          @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                                          @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIR, required = false) String sortDir){
         AllTeachersResponse allTeacher = adminService.getAllTeacher(pageNo, pageSize, sortBy, sortDir);
-        if(allTeacher.getContent()!=null && allTeacher.getContent().size()>0){
+        if(allTeacher.getContent()!=null && !allTeacher.getContent().isEmpty()){
             return new ResponseEntity<>(allTeacher, HttpStatus.OK);
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -64,11 +64,11 @@ public class AdminController {
         if((teacherFilterRequest.getFilterType()==null && teacherFilterRequest.getFilterText()==null &&
                 teacherFilterRequest.getStatusSubfilter()==null)||(teacherFilterRequest.getFilterType().isBlank() && teacherFilterRequest.getFilterText().isBlank() &&
                 teacherFilterRequest.getStatusSubfilter().isBlank())){
-            allTeacher = adminService.getAllTeacher(0,10,"id","asc");
+            allTeacher = adminService.getAllTeacher(pageNo,pageSize,"id","asc");
         }else{
             allTeacher = adminService.getTeachersByFilter(pageNo, pageSize, sortBy, sortDir,teacherFilterRequest);
         }
-        if(allTeacher!=null && allTeacher.getContent().size()>0){
+        if(allTeacher!=null && !allTeacher.getContent().isEmpty()){
             return new ResponseEntity<>(allTeacher, HttpStatus.OK);
         }
         return new ResponseEntity<>("No Data Found.", HttpStatus.NOT_FOUND);
