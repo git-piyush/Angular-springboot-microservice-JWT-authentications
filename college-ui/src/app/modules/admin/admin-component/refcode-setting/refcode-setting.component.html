@@ -31,17 +31,16 @@
                 
             </div>
         </form>
+        
     </div>
 
 </div>
-
-
-
-<div class="container">
-    <div *ngIf="isLoading">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
+<br>
+<div style="padding-left: 150px;">
+    <button (click)="openAddRefCodeForm()" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add RefCode</button>
+    <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Create New Category And Refcode</button>
 </div>
+<hr>
 <br>
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <hr>
@@ -97,11 +96,6 @@
                                                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                             </span>
                                         </a>
-                                        <a (click)="openPopup(refcode.active)" class="table-link border-x-zinc-700">
-                                            <span class="fa fa-stack">
-                                                <i class="fa fa-envelope fa-stack-2x"></i>
-                                            </span>
-                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -146,34 +140,35 @@
   tabindex="-1"
   role="dialog"
   [ngStyle]="{'display':displayStyle}">
-  <div *ngIf="sendingmail">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </div>
   <div class="modal-dialog" role="document"> 
     <div class="modal-content"> 
       <div class="modal-header"> 
         <h4 class="modal-title">GeeksForGeeks</h4> 
       </div> 
       <div class="modal-body">         
-        <form class="mail-form" [formGroup]="draftMailForm">
+        <form class="mail-form" [formGroup]="addRefCodeForm">
             <div class="form-group">
-              <label for="recipient-name" class="col-form-label">Recipient:</label>
-              <input formControlName="recipientEmail" type="email" class="form-control" id="recipient" readonly>
+              <label for="recipient-name" class="col-form-label">RefCode:</label>
+              <input formControlName="refCode" type="text" class="form-control" id="recipient">
             </div>
             <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Subject:</label>
-                <input formControlName="subject" type="text" class="form-control" id="recipient">
+                <label for="recipient-name" class="col-form-label">Category:</label>
+                <select formControlName="category" class="form-control" id="exampleFormControlSelect1">
+                    <option *ngFor="let refCode of refCodeCategoryList" [value]="refCode.value">
+                        {{ refCode.label }}
+                    </option>
+                </select>
               </div>
             <div class="form-group">
-              <label for="message-text" class="col-form-label">Message:</label>
-              <textarea formControlName="message" type="text" class="form-control" id="message-text"></textarea>
+              <label for="message-text" class="col-form-label">RefCode Long Name:</label>
+              <input formControlName="longName" type="text" class="form-control" id="message-text" >
             </div>
         </form>
   
       </div> 
       <div class="modal-footer"> 
         <button type="button" class="btn btn-info" 
-                (click)="sendMail()"> 
+                (click)="addRefCode()"> 
           Send 
         </button> 
         <button type="button" class="btn btn-danger" 

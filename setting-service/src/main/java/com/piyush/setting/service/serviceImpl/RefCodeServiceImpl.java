@@ -34,7 +34,7 @@ public class RefCodeServiceImpl implements RefCodeService {
     }
 
     @Override
-    public RefCodeModelResponse getAllRefCode(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String filterText) {
+    public RefCodeModelResponse getAllRefCode(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String filterValue, String filterText) {
 
         Sort sort = sortDir.equalsIgnoreCase("ASC")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
@@ -45,7 +45,7 @@ public class RefCodeServiceImpl implements RefCodeService {
             if(filterType!=null && filterType.equalsIgnoreCase("REFCODE")) {
                 page = refCodeRepository.findByRefCode(filterText,pageable);
             }else if(filterType!=null && filterType.equalsIgnoreCase("CATEGORY")){
-                page = refCodeRepository.findByCategory(filterText,pageable);
+                page = refCodeRepository.findByCategory(filterValue,pageable);
             }else if(filterType!=null && filterType.equalsIgnoreCase("LONGNAME")){
                 page = refCodeRepository.findByLongNameContaining(filterText,pageable);
             }else if(filterType!=null && filterType.equalsIgnoreCase("ACTIVE")){

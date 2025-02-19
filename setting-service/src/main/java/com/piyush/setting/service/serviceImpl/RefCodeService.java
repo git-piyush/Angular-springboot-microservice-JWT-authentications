@@ -12,7 +12,7 @@ public interface RefCodeService {
 
     RefCode createRefCode(RefCode refCode);
 
-    RefCodeModelResponse getAllRefCode(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String filterText);
+    RefCodeModelResponse getAllRefCode(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String filterValue, String filterText);
 
     List<DropDownResponse> getAllRefCodeByCategory(String category);
 

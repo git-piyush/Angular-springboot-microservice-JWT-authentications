@@ -28,6 +28,10 @@ public class RefCodeController {
     @PostMapping("/create")
     public ResponseEntity createRefcode(@RequestBody RefCodeModelRequest modelRequest){
         //model request to model entity
+        modelRequest.setRefCode(modelRequest.getRefCode().toUpperCase());
+        modelRequest.setCategory(modelRequest.getCategory().toUpperCase());
+        modelRequest.setLongName(modelRequest.getLongName().toUpperCase());
+        modelRequest.setActive("A");
         RefCode refCode = mapper.map(modelRequest, RefCode.class);
 
         System.out.println(refCode.getRefCode());
@@ -48,10 +52,14 @@ public class RefCodeController {
                                          @RequestParam(value = "sortBy", defaultValue = AppConstant.DEFAULT_SORT_BY, required = false) String sortBy,
                                          @RequestParam(value = "sortDir", defaultValue = AppConstant.DEFAULT_SORT_DIR, required = false) String sortDir,
                                          @RequestParam(value = "filterType", required = false) String filterType,
+                                        @RequestParam(value = "filterValue", required = false) String filterValue,
                                          @RequestParam(value = "filterText", required = false) String filterText){
 
+        System.out.println(filterType);
+        System.out.println(filterValue);
+        System.out.println(filterText);
 
-        RefCodeModelResponse allRefCode = refCodeService.getAllRefCode(pageNo, pageSize, sortBy, sortDir, filterType,filterText);
+        RefCodeModelResponse allRefCode = refCodeService.getAllRefCode(pageNo, pageSize, sortBy, sortDir, filterType,filterValue,filterText);
         if(allRefCode.getContent()!=null && !allRefCode.getContent().isEmpty()){
             return new ResponseEntity<>(allRefCode, HttpStatus.OK);
         }

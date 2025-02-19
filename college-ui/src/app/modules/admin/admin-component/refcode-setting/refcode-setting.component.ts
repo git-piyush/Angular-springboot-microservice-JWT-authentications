@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AdminService } from '../../admin-service/admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-refcode-setting',
@@ -14,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class RefcodeSettingComponent {
 
-  draftMailForm: FormGroup | undefined;
+  addRefCodeForm: FormGroup | undefined;
   refCodeSearchFilterForm: FormGroup | undefined;
   refCodes:any;
   refCodeCategoryList:any;
@@ -25,15 +26,14 @@ export class RefcodeSettingComponent {
   currentPage = 0;
   pageSizeOptions = [3, 6, 12];
 
-  isLoading:boolean=false;
-  sendingmail:boolean=false;
   Math: any;
 
   constructor(
     private service : AdminService,
     private snackbar : MatSnackBar,
     private fb : FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ){
     this.Math = Math;
   }
@@ -46,10 +46,11 @@ export class RefcodeSettingComponent {
       filterText:['', [Validators.required, Validators.minLength(3)]]
     })
 
-    this.draftMailForm = this.fb.group({
-      recipientEmail:['', Validators.required],
-      message:['',Validators.required],
-      subject:['', Validators.required]
+    this.addRefCodeForm = this.fb.group({
+      refCode:['', Validators.required],
+      category:['',Validators.required],
+      longName:['', Validators.required],
+      active:['', Validators.required]
     })
 
     this.getAllActiveRefCode(this.currentPage,this.pageSize);
@@ -57,24 +58,35 @@ export class RefcodeSettingComponent {
 
   myFunction(val: Event) {
     if((val.target as HTMLInputElement).value === 'refcode'){
+      this.refCodeSearchFilterForm.value.filterValue = null;
+      this.refCodeSearchFilterForm.value.filterText = null;
       this.filterValueInput = false;
       this.filterTextInput = true;
     }else if((val.target as HTMLInputElement).value === 'category'){
-      this.getRefcodeDropDown(this.refCodeSearchFilterForm.value.filterType,
-        this.refCodeSearchFilterForm.value.filterValue,
-        this.refCodeSearchFilterForm.value.filterText);
+      this.getRefcodeDropDown();
+        this.refCodeSearchFilterForm.value.filterValue = null;
+      this.refCodeSearchFilterForm.value.filterText = null;
       this.filterValueInput = true;
       this.filterTextInput = false;
     }else if((val.target as HTMLInputElement).value === 'longname'){
+      this.refCodeSearchFilterForm.value.filterValue = null;
+      this.refCodeSearchFilterForm.value.filterText = null;
       this.filterValueInput = false;
       this.filterTextInput = true;
     }else if((val.target as HTMLInputElement).value === 'active'){
+      this.refCodeSearchFilterForm.value.filterValue = null;
+      this.refCodeSearchFilterForm.value.filterText = null;
       this.filterValueInput = false;
       this.filterTextInput = true;
     }
+    const formVal = this.refCodeSearchFilterForm.value;
+    this.refCodeSearchFilterForm.patchValue(formVal);
+    console.log(formVal);
+    console.log(this.refCodeSearchFilterForm.value);
   }
 
-  getRefcodeDropDown(filterType:string, filterValue:string,filterText:string){
+  getRefcodeDropDown(){
+    console.log('getRefcodeDropDown');
     this.service.getCategoryDropDown().subscribe((res)=>{
       console.log(res);
       this.refCodeCategoryList = res;
@@ -91,7 +103,7 @@ export class RefcodeSettingComponent {
   }
 
   refcodeByFilter(){
-    alert('refcodeByFilter');
+    console.log(this.refCodeSearchFilterForm.value);
     if(!this.isSearchFormValid()){
       return;
     }
@@ -100,27 +112,53 @@ export class RefcodeSettingComponent {
       return;
     }
     this.currentPage = 0;
-    this.service.getAllRegistredUserByFilter(this.currentPage,this.pageSize,this.refCodeSearchFilterForm.value.filterType,this.refCodeSearchFilterForm.value.statusSubfilter,this.refCodeSearchFilterForm.value.filterText).subscribe((res)=>{
-      this.isLoading = true;
+    this.service.getRefCodeByFilter(this.currentPage,this.pageSize,this.refCodeSearchFilterForm.value.filterType,this.refCodeSearchFilterForm.value.filterValue,this.refCodeSearchFilterForm.value.filterText).subscribe((res)=>{
         console.log(res);
         if(res!=null){
           this.refCodes = res.content;
           this.totalElements = res.totalElements;
           this.pageSize = res.pageSize;
-          this.isLoading = false;
           this.snackbar.open("Student retrieved successfully.", "Close",{duration:5000});
         }
     }, (err:HttpErrorResponse) => {
       console.log(err);
       if(err.status==403){
         this.snackbar.open("Some Error Occured.","Close", { duration: 5000 });
-        this.isLoading = false;
       }
       if(err.status==404){
         this.refCodes = null;
         console.log(err);
         this.snackbar.open(err.error,"Close", { duration: 5000 });
-        this.isLoading = false;
+      }
+   })
+  }
+
+  refcodeByFilter1(){
+    console.log(this.refCodeSearchFilterForm.value);
+    if(!this.isSearchFormValid()){
+      return;
+    }
+    if(this.isSearchFilterFormEmpty()){
+      this.getAllActiveRefCode(this.currentPage,this.pageSize);
+      return;
+    }
+    this.service.getRefCodeByFilter(this.currentPage,this.pageSize,this.refCodeSearchFilterForm.value.filterType,this.refCodeSearchFilterForm.value.filterValue,this.refCodeSearchFilterForm.value.filterText).subscribe((res)=>{
+        console.log(res);
+        if(res!=null){
+          this.refCodes = res.content;
+          this.totalElements = res.totalElements;
+          this.pageSize = res.pageSize;
+          this.snackbar.open("Student retrieved successfully.", "Close",{duration:5000});
+        }
+    }, (err:HttpErrorResponse) => {
+      console.log(err);
+      if(err.status==403){
+        this.snackbar.open("Some Error Occured.","Close", { duration: 5000 });
+      }
+      if(err.status==404){
+        this.refCodes = null;
+        console.log(err);
+        this.snackbar.open(err.error,"Close", { duration: 5000 });
       }
    })
   }
@@ -131,21 +169,28 @@ export class RefcodeSettingComponent {
         (this.refCodeSearchFilterForm.value.filterText === null || 
           this.refCodeSearchFilterForm.value.filterText === '')){
           alert('Filter Value can not be empty.');
+          return false;
       }
       if(this.refCodeSearchFilterForm.value.filterType === 'category' &&
         (this.refCodeSearchFilterForm.value.filterValue === null ||
           this.refCodeSearchFilterForm.value.filterValue==='')){
         alert('Filter Text can not be empty.');
+        return false;
       }
       if(this.refCodeSearchFilterForm.value.filterType === 'longname' &&
-        this.refCodeSearchFilterForm.value.filterText === null){
-        alert('Filter Value empty not possible');
+        (this.refCodeSearchFilterForm.value.filterText === null ||
+         this.refCodeSearchFilterForm.value.filterText === '')){
+        alert('Filter Value can not be empty.');
+        return false;
       }
       if(this.refCodeSearchFilterForm.value.filterType === 'active' &&
-        this.refCodeSearchFilterForm.value.filterText === null){
-        alert('Filter Value empty not possible');
+        (this.refCodeSearchFilterForm.value.filterText === null ||
+        this.refCodeSearchFilterForm.value.filterText === '')){
+        alert('Filter Value can not be empty.');
+        return false;
       }
     }
+    return true;
   }
 
   getAllActiveRefCode(pageNo:number, pageSize:number){
@@ -175,35 +220,33 @@ export class RefcodeSettingComponent {
   goToPreviousPage(): void {
     if (this.currentPage > 0) {
       this.currentPage--;
-      this.getAllActiveRefCode(this.currentPage,this.pageSize);
+      this.refcodeByFilter1();
     }
   }
 
   goToNextPage(): void {
+    console.log(this.refCodeSearchFilterForm.value);
     const totalPages = Math.ceil(this.totalElements / this.pageSize);
     if (this.currentPage < totalPages - 1) {
       this.currentPage++;
-      this.getAllActiveRefCode(this.currentPage,this.pageSize);
+      this.refcodeByFilter1();
+      
     }
   }
-
-
-  
   displayStyle = "none"; 
-  openPopup(email:any) {
-    this.draftMailForm.value.recipientEmail=email;
-    const student = this.draftMailForm.value;
-    this.draftMailForm.patchValue(student);
+  openAddRefCodeForm(){
+    this.getRefcodeDropDown();
     this.displayStyle = "block";
   }
   
-  sendMail(){
-    this.sendingmail = true;
-    console.log(this.draftMailForm.value);
-    this.service.sendSimpleMail(this.draftMailForm.value).subscribe((res)=>{
+  
+  addRefCode(){
+    console.log(this.addRefCodeForm.value);
+    this.service.addRefCode(this.addRefCodeForm.value).subscribe((res)=>{
         if(res!=null){
           this.snackbar.open("Email Sent.", "Close",{duration:5000});
           this.closePopup();
+          this.router.navigateByUrl("/refcodesetting");
         }
     }, (err:HttpErrorResponse) => {
       console.log(err);
@@ -227,9 +270,9 @@ export class RefcodeSettingComponent {
    })
   }
   closePopup() {
-    this.sendingmail = false;
-    this.draftMailForm.value.subject=null;
-    this.draftMailForm.value.message=null;
+    this.addRefCodeForm.value.refCode=null;
+    this.addRefCodeForm.value.category=null;
+    this.addRefCodeForm.value.longName=null;
     this.displayStyle = "none"; 
   }
 
