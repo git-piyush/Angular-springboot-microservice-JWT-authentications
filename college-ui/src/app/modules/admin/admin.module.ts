@@ -20,13 +20,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from '../../app.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RegistereduserListComponent } from './admin-component/registereduser-list/registereduser-list.component';
+import { UserDetailsComponent } from './admin-component/user-details/user-details.component';
+import { RefcodeSettingComponent } from './admin-component/refcode-setting/refcode-setting.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+
 @NgModule({
   declarations: [
     AdminDashboardComponent,
     StudentListComponent,
     TeacherListComponent,
     TeacherDetailsComponent,
-    RegistereduserListComponent
+    RegistereduserListComponent,
+    UserDetailsComponent,
+    RefcodeSettingComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +50,8 @@ import { RegistereduserListComponent } from './admin-component/registereduser-li
     MatCardModule,
     MatMenuModule,
     MatDialogModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatGridListModule
   ],
   providers:[],
   bootstrap:[AppComponent]

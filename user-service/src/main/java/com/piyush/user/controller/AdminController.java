@@ -37,9 +37,9 @@ public class AdminController {
                                          @RequestParam(value = "statusSubfilter", required = false) String statusSubfilter,
                                          @RequestParam(value = "filterText", required = false) String filterText){
 
-        AllStudentsResponse allStudent = adminService.findByActiveAndNameContainingOrEmailContaining(pageNo, pageSize, sortBy, sortDir, filterType,statusSubfilter,filterText);
-        if(allStudent.getContent()!=null && !allStudent.getContent().isEmpty()){
-            return new ResponseEntity<>(allStudent, HttpStatus.OK);
+        RegisteredUserResponse allUser = adminService.findByActiveAndNameContainingOrEmailContaining(pageNo, pageSize, sortBy, sortDir, filterType,statusSubfilter,filterText);
+        if(allUser.getContent()!=null && !allUser.getContent().isEmpty()){
+            return new ResponseEntity<>(allUser, HttpStatus.OK);
         }
         return new ResponseEntity<>("No Data Found.", HttpStatus.NOT_FOUND);
     }
@@ -92,6 +92,22 @@ public class AdminController {
         }
         if(allTeacher!=null && !allTeacher.getContent().isEmpty()){
             return new ResponseEntity<>(allTeacher, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No Data Found.", HttpStatus.NOT_FOUND);
+    }
+
+
+    @GetMapping("/userdetails/{userId}")
+    @Transactional
+    public ResponseEntity getRegisteredUserDetailsById(@PathVariable Long userId){
+        RegisteredUserDetailsResponse userResponse = null;
+
+        System.out.println(userId);
+
+        userResponse = adminService.getRegisteredUserDetailsById(userId);
+
+        if(userResponse!=null){
+            return new ResponseEntity<>(userResponse, HttpStatus.OK);
         }
         return new ResponseEntity<>("No Data Found.", HttpStatus.NOT_FOUND);
     }

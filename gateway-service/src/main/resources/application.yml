@@ -45,6 +45,23 @@ spring:
               allowedHeaders: '*'
               maxAge: 30
 
+        - id: SETTING-SERVICE
+          uri: lb://SETTING-SERVICE
+          predicates:
+            - Path=/api/v1/refcode/**
+          filters:
+            - AuthenticationFilter
+          metadata:
+            cors:
+              allowedOrigins: "*"
+              allowedMethods:
+                - GET
+                - POST
+                - DELETE
+                - PUT
+              allowedHeaders: '*'
+              maxAge: 30
+
         - id: identity-service
           uri: lb://IDENTITY-SERVICE
           predicates:

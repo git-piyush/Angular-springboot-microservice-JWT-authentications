@@ -41,10 +41,10 @@ export class LoginComponent {
         this.loading = false;
       if(StorageService.isAdminLoggedIn()){
         console.log("Admin");
-        this.router.navigateByUrl("/admin/admindashboard");
+        this.router.navigateByUrl("/home");
       }else if(StorageService.isStudentLoggedIn()){
         console.log("Student");
-        this.router.navigateByUrl("/student/studentdashboard");
+        this.router.navigateByUrl("/home");
       }
       console.log("Nothing");
     }, (err:HttpErrorResponse) => {

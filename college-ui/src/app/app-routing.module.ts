@@ -9,6 +9,7 @@ import { SendotptoemailComponent } from './common-component/sendotp-component/se
 import { ResetpasswordComponent } from './common-component/resetpassword-component/resetpassword/resetpassword.component';
 
 const routes: Routes = [
+  { path:'',component:HomeComponent },
   {path:"home", component:HomeComponent},
   {path:"login", component:LoginComponent},
   {path:"register", component:RegisterComponent},

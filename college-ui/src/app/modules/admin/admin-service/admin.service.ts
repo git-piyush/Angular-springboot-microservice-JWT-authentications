@@ -62,6 +62,30 @@ export class AdminService {
     })
   }
 
+  getRegisteredUserDetailsById(userId: any):Observable<any>{
+    return this.http.get<[]>(BASIC_URL+`api/v1/admin/userdetails/${userId}`,{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+  createStudentVacancy(userId: any):Observable<any>{
+    return this.http.get<[]>(BASIC_URL+`api/v1/admin/userdetails/${userId}`,{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+
+  getAllActiveRefCode(pageNo:number, pageSize:number): Observable<any>{
+    return this.http.get<[]>(BASIC_URL+"api/v1/refcode/getrefcode?pageNo="+pageNo+"&pageSize="+pageSize,{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+
+  getCategoryDropDown(): Observable<any>{
+    return this.http.get<[]>(BASIC_URL+"api/v1/refcode/getrefcodecategorylist",{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+
+
   private createAuhtorizationHeader() {
     const jwtToken = localStorage.getItem('c_token');
     if (jwtToken) {

@@ -22,7 +22,7 @@ public class AdminServiceImpl implements AdminService{
 
 
     @Override
-    public AllStudentsResponse findByActiveAndNameContainingOrEmailContaining(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText) {
+    public RegisteredUserResponse findByActiveAndNameContainingOrEmailContaining(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText) {
 
         String name=null;// = filterText;
         String email=null;// = filterText;
@@ -43,11 +43,11 @@ public class AdminServiceImpl implements AdminService{
         }
 
         //get the content from page
-        List<UserInfo> studentList = page.getContent();
-        List<StudentDTO> allStudents = studentList.stream().map(user-> new StudentDTO(user.getId(), user.getName(), user.getEmail(), user.getDoj(),user.getActive())).collect(Collectors.toList());
+        List<UserInfo> userList = page.getContent();
+        List<RegisteredUserDTO> allUsers = userList.stream().map(user-> new RegisteredUserDTO(user.getId(), user.getName(), user.getEmail(), user.getDoj(),user.getActive(), user.getUsertype())).collect(Collectors.toList());
 
-        AllStudentsResponse res = new AllStudentsResponse();
-        res.setContent(allStudents);
+        RegisteredUserResponse res = new RegisteredUserResponse();
+        res.setContent(allUsers);
         res.setPageNo(page.getNumber());
         res.setPageSize(page.getSize());
         res.setLast(page.isLast());
@@ -139,6 +139,16 @@ public class AdminServiceImpl implements AdminService{
         res.setLast(page.isLast());
         res.setTotalElements(page.getTotalElements());
         res.setTotalPages(page.getTotalPages());
+        return res;
+    }
+
+    @Override
+    public RegisteredUserDetailsResponse getRegisteredUserDetailsById(Long id) {
+        UserInfo user = userInfoRepository.findByIdAndActive(id, AppConstants.HOLD);
+
+        RegisteredUserDetailsResponse res = new RegisteredUserDetailsResponse(
+                user.getId(),user.getUserid(),user.getName()
+        );
         return res;
     }
 }

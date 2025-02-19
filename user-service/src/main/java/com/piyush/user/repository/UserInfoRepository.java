@@ -23,4 +23,5 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 
     Page<UserInfo> findByUsertypeAndNameContainingOrEmailContaining(String usertype,String name, String email,Pageable pageable);
 
+    UserInfo findByIdAndActive(Long id, String active);
 }

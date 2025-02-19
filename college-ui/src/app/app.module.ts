@@ -27,6 +27,7 @@ import { ResetpasswordComponent } from './common-component/resetpassword-compone
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -64,6 +65,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatMenuModule,
     MatDialogModule, 
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatListModule,
   ],
   providers: [
     provideAnimationsAsync(),

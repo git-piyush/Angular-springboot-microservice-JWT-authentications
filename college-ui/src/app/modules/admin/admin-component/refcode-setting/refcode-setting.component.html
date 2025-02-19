@@ -1,0 +1,186 @@
+<div class="flex items-center justify-center bg-gray-100">
+
+    <div class="w-full max-w-5xl p-8 bg-white rounded-lg shadow-lg">
+        
+        <form class="space-y-1" id="search-form" [formGroup]="refCodeSearchFilterForm">
+            <!-- Three inputs in one row -->
+            <div class="grid grid-cols-3 gap-2">
+                <div>
+                    <select formControlName="filterType" (change)="myFunction($event)" class="form-control" id="exampleFormControlSelect1">
+                        <option value=""  [selected] ="true">Choose Filter</option>
+                        <option value="refcode">Ref Code</option>
+                        <option value="category">Category</option>
+                        <option value="longname">Long Name</option>
+                        <option value="active">Active</option>
+                    </select>
+                </div>
+                <div *ngIf="filterValueInput">
+                        <select formControlName="filterValue" class="form-control" id="exampleFormControlSelect1">
+                            <option *ngFor="let refCode of refCodeCategoryList" [value]="refCode.value">
+                                {{ refCode.label }}
+                            </option>
+                        </select>
+                </div>
+                <div *ngIf="filterTextInput">
+                    <input formControlName="filterText" class="w-full px-4 py-2 mt-0 border rounded-md focus:ring focus:ring-blue-300" placeholder="Enter Filter Type text">
+                </div>
+                <div>
+                    <button (click)="refcodeByFilter()" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search</button>
+                    <button type="reset" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Reset</button>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+<div class="container">
+    <div *ngIf="isLoading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+</div>
+<br>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<hr>
+<div *ngIf="refCodes==null">
+    <p>No Data found.</p>
+</div>
+<div class="container bootstrap snippets bootdey" *ngIf="refCodes">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table user-list">
+                            <thead>
+                                <tr>
+                                <th><span>Ref Code</span></th>
+                                <th><span>Category</span></th>
+                                <th><span>Ref Code Long Name</span></th>
+                                <th><span>Active</span></th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let refcode of refCodes">
+                                    <td>
+                                        <b>{{ refcode.refCode }}</b>
+                                    </td>
+                                    <td>
+                                        {{ refcode.category }}
+                                    </td>
+                                    <td>
+                                        {{ refcode.longName }}
+                                    </td>
+                                    <td>
+                                        {{ refcode.active }}
+                                    </td>
+                                    <td style="width: 30%;">
+                                        <a routerLink="/admin/userdetails/{{refcode.active}}" routerLinkActive="active" class="table-link text-warning">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="table-link text-info">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="table-link danger">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a (click)="openPopup(refcode.active)" class="table-link border-x-zinc-700">
+                                            <span class="fa fa-stack">
+                                                <i class="fa fa-envelope fa-stack-2x"></i>
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  <div class="flex justify-center mt-4">
+
+    <label for="pageSize" class="font-semibold mr-2">Page Size:</label>
+    <select id="pageSize" (change)="onPageSizeChange($event)"
+      class="border p-2 rounded">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+
+    <button (click)="goToPreviousPage()" 
+      class="px-4 py-2 mx-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+      [disabled]="currentPage === 0">
+      Previous
+    </button>
+
+    <span class="px-4 py-2">
+      {{ currentPage + 1 }} / {{ totalElements ? Math.ceil(totalElements / pageSize) : 1 }}
+    </span>
+
+    <button (click)="goToNextPage()" 
+      class="px-4 py-2 mx-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+      [disabled]="currentPage >= (totalElements / pageSize) - 1">
+      Next
+    </button>
+  </div>
+
+
+<!-- Below is the code to open a popup form to draft an email. -->
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div *ngIf="sendingmail">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div class="modal-dialog" role="document"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+        <h4 class="modal-title">GeeksForGeeks</h4> 
+      </div> 
+      <div class="modal-body">         
+        <form class="mail-form" [formGroup]="draftMailForm">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Recipient:</label>
+              <input formControlName="recipientEmail" type="email" class="form-control" id="recipient" readonly>
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Subject:</label>
+                <input formControlName="subject" type="text" class="form-control" id="recipient">
+              </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea formControlName="message" type="text" class="form-control" id="message-text"></textarea>
+            </div>
+        </form>
+  
+      </div> 
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-info" 
+                (click)="sendMail()"> 
+          Send 
+        </button> 
+        <button type="button" class="btn btn-danger" 
+                (click)="closePopup()"> 
+          Close 
+        </button> 
+      </div> 
+    </div> 
+  </div> 
+</div>

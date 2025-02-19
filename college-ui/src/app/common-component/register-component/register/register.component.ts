@@ -15,7 +15,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 
 export class RegisterComponent {
-  websiteList: any = ['Javatpoint.com', 'HDTuto.com', 'Tutorialandexample.com'];
   loading : boolean = false;
   registrationForm: FormGroup;
   private snackbar = inject(MatSnackBar);

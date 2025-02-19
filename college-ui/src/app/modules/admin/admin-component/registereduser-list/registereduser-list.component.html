@@ -69,6 +69,7 @@
                                 <th><span>Teacher Name</span></th>
                                 <th><span>Date of joinning</span></th>
                                 <th class="text-center"><span>Status</span></th>
+                                <th class="text-center"><span>Application For</span></th>
                                 <th><span>Email</span></th>
                                 <th>Action</th>
                                 </tr>
@@ -85,10 +86,13 @@
                                         <span class="label label-default">{{ user.status=='A'?'Active':user.status=='H'?'Hold':'Left' }}</span>
                                     </td>
                                     <td>
+                                        {{ user.userType=='RCTEC'?'Teacher': 'Student' }}
+                                    </td>
+                                    <td>
                                         {{ user.email }}
                                     </td>
                                     <td style="width: 30%;">
-                                        <a href="#" class="table-link text-warning">
+                                        <a routerLink="/admin/userdetails/{{user.id}}" routerLinkActive="active" class="table-link text-warning">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                 <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>

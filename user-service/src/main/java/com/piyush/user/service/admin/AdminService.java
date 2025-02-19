@@ -9,11 +9,14 @@ import java.util.List;
 @Service
 public interface AdminService {
 
-    AllStudentsResponse findByActiveAndNameContainingOrEmailContaining(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText);
+    RegisteredUserResponse findByActiveAndNameContainingOrEmailContaining(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText);
 
     AllStudentsResponse getAllStudent(int pageNo, int pageSize, String sortBy, String sortDir, String filterType, String statusSubfilter, String filterText);
 
     AllTeachersResponse getAllTeacher(int pageNo, int pageSize, String sortBy, String sortDir);
 
     AllTeachersResponse getTeachersByFilter(int pageNo, int pageSize, String sortBy, String sortDir,TeacherFilterRequest teacherFilterRequest);
+
+    RegisteredUserDetailsResponse getRegisteredUserDetailsById(Long userId);
+
 }

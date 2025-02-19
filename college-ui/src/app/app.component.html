@@ -2,36 +2,38 @@
   <!-- Sidebar -->
   <div class="bg-gray-800 text-white w-64 h-150 flex-shrink-0">
     <div class="p-4 text-lg font-bold border-b border-gray-700">{{ title }}</div>
-    <nav class="mt-4">
-      <ul>
-        <li>
-          <a href="#" routerLink="/admin/admindashboard" class="block px-4 py-2 hover:bg-gray-700 rounded transition">
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a href="#" class="block px-4 py-2 hover:bg-gray-700 rounded transition">
-            Settings
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="block px-4 py-2 hover:bg-gray-700 rounded transition"
-          >
-            Profile
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="block px-4 py-2 hover:bg-gray-700 rounded transition"
-          >
-            Help
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <div *ngIf="isAdminLoggedIn">
+      <nav class="mt-4">
+        <ul>
+          <li>
+            <a href="#" routerLink="/admin/admindashboard" class="block px-4 py-2 hover:bg-gray-700 rounded transition">
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-700 rounded transition">
+              Settings
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="block px-4 py-2 hover:bg-gray-700 rounded transition"
+            >
+              Profile
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="block px-4 py-2 hover:bg-gray-700 rounded transition"
+            >
+              Help
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 
   <!-- Main Content -->
@@ -64,15 +66,19 @@
 
             <a routerLink="/admin/user-list" href="#" class="py-5 px-3 text-gray-100">Registered User</a>
           
-      </div>
-        
-        
+      </div>        
         <a href="#" class="py-5 px-3 text-gray-100">Experience</a>
         <a href="#" class="py-5 px-3 text-gray-100">Contact</a>
       </div>
 
       <div class="flex items-center justify-between space-x-1 h-1">
         <div *ngIf="isAdminLoggedIn">
+          <button style="color: white;" mat-button [matMenuTriggerFor]="setting" class="py-1 px-4">Setting</button>
+            <mat-menu #setting="matMenu">
+              <button mat-menu-item routerLink="/admin/refcodesetting" routerLinkActive="active">Add Refcode Category</button>
+              <button mat-menu-item>Item 2</button>
+              <button mat-menu-item>Item 3</button>
+            </mat-menu>
           <button  routerLink="/viewprofile" routerLinkActive="active" class="py-5 px-3 text-gray-100" data-toggle="tooltip" data-placement="top" title="View Profile">{{ name }}</button>
           <button mat-button (click)="logout()" routerLinkActive="active" class="py-5 px-3 text-gray-100">Logout</button>
         </div>       

@@ -7,10 +7,7 @@ import com.javatechie.dto.Response;
 import com.javatechie.entity.PasswordResetDetails;
 import com.javatechie.entity.UserCredential;
 import com.javatechie.exception.UserDoNotExistException;
-import com.javatechie.service.AuthService;
-import com.javatechie.service.PasswordResetTokenService;
-import com.javatechie.service.PasswordService;
-import com.javatechie.service.UserService;
+import com.javatechie.service.*;
 import com.javatechie.user.UserClient;
 import com.javatechie.user.UserInfoRequest;
 import com.javatechie.user.UserRestClient;
@@ -30,6 +27,10 @@ import java.util.Date;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    @Autowired
+    private JwtService jwtService;
+
     @Autowired
     private AuthService service;
 
@@ -124,6 +125,11 @@ public class AuthController {
         userService.updatePassword(user, passwordEncoder.encode(passwordResetRequest.getPassword()));
         Response res = new Response("Password reset successfully.");
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/getusername")
+    public String getUsernameByToken(@RequestParam("token") String token) {
+       return jwtService.getUsernameFromToken(token);
     }
 
 }
