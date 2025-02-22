@@ -229,8 +229,8 @@ export class RefcodeSettingComponent {
     const totalPages = Math.ceil(this.totalElements / this.pageSize);
     if (this.currentPage < totalPages - 1) {
       this.currentPage++;
+      //this.getAllActiveRefCode(this.currentPage,this.pageSize);
       this.refcodeByFilter1();
-      
     }
   }
   displayStyle = "none"; 
@@ -244,30 +244,59 @@ export class RefcodeSettingComponent {
     console.log(this.addRefCodeForm.value);
     this.service.addRefCode(this.addRefCodeForm.value).subscribe((res)=>{
         if(res!=null){
-          this.snackbar.open("Email Sent.", "Close",{duration:5000});
+          this.snackbar.open(res, "Close",{duration:5000});
           this.closePopup();
           this.router.navigateByUrl("/refcodesetting");
         }
     }, (err:HttpErrorResponse) => {
       console.log(err);
       if(err.status==403){
-        this.snackbar.open("Either Email or Password is wrong.","Close", { duration: 5000 });
+        this.snackbar.open("Something went is wrong.","Close", { duration: 5000 });
         this.closePopup();
       }
       if(err.status==404){
         this.refCodes = null;
         console.log(err);
         this.snackbar.open(err.error,"Close", { duration: 5000 });
-        this.closePopup();
       }
       if(err.status==200){
         this.refCodes = null;
-        console.log(err);
-        this.snackbar.open('Email has been sent.',"Close", { duration: 5000 });
+
+        this.snackbar.open(err.error.text,"Close", { duration: 5000 });
         this.closePopup();
         this.getAllActiveRefCode(this.currentPage,this.pageSize);
       }
    })
+   this.closePopup();
+  }
+
+  deleteRefCode(refCode: string){
+    this.service.deleteRefCode(refCode).subscribe((res)=>{
+      if(res!=null){
+        this.snackbar.open(res, "Close",{duration:5000});
+        this.closePopup();
+        this.router.navigateByUrl("/refcodesetting");
+      }
+  }, (err:HttpErrorResponse) => {
+    console.log(err);
+    if(err.status==403){
+      this.snackbar.open("Something went wrong.","Close", { duration: 5000 });
+      this.closePopup();
+    }
+    if(err.status==404){
+      this.refCodes = null;
+      console.log(err);
+      this.snackbar.open(err.error,"Close", { duration: 5000 });
+      this.closePopup();
+    }
+    if(err.status==200){
+      this.refCodes = null;
+      console.log(err);
+      this.snackbar.open('Email has been sent.',"Close", { duration: 5000 });
+      this.closePopup();
+      this.getAllActiveRefCode(this.currentPage,this.pageSize);
+    }
+ })
   }
   closePopup() {
     this.addRefCodeForm.value.refCode=null;

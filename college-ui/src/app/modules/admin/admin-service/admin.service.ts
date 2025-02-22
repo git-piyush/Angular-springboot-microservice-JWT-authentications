@@ -9,7 +9,6 @@ const BASIC_URL = ["http://localhost:8081/"]
   providedIn: 'root'
 })
 export class AdminService {
-
   constructor(private http:HttpClient) { }
 
   getAllRegistredUserByFilter(pageNo:number, pageSize:number, filterType:string, statusSubfilter:string, filterText:string): Observable<any>{
@@ -94,6 +93,12 @@ export class AdminService {
 
   addRefCode(refCodeRequest:any): Observable<any>{
     return this.http.post<[]>(BASIC_URL+"api/v1/refcode/create",refCodeRequest,{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+
+  deleteRefCode(refCode: string):Observable<any> {
+    return this.http.delete<[]>(BASIC_URL+`api/v1/refcode/deleteRefCode/${refCode}`,{
       headers: this.createAuhtorizationHeader()
     })
   }

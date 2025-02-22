@@ -17,7 +17,8 @@ const routes: Routes = [
   { path:'teacherdetails/:teacherId', canActivate:[adminGuard],component:TeacherDetailsComponent},
   { path:'user-list', canActivate:[adminGuard],component:RegistereduserListComponent},
   { path:'userdetails/:userId', canActivate:[adminGuard],component: UserDetailsComponent},
-  { path:'refcodesetting', canActivate:[adminGuard],component: RefcodeSettingComponent}
+  { path:'refcodesetting', canActivate:[adminGuard],component: RefcodeSettingComponent},
+  { path:'deleterefcode/:refCode', canActivate:[adminGuard],component: RefcodeSettingComponent}
 ];
 
 @NgModule({

@@ -18,7 +18,11 @@ public interface RefCodeRepository extends JpaRepository<RefCode, String> {
 
     Page<RefCode> findByRefCode(String filterText, Pageable pageable);
 
+    RefCode findByRefCode(String refCode);
+
     Page<RefCode> findByCategory(String filterText, Pageable pageable);
+
+    void deleteByRefCode(String refCode);
 
     Page<RefCode> findByLongNameContaining(String filterText, Pageable pageable);
 

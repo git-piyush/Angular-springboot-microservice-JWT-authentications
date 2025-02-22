@@ -17,4 +17,6 @@ public interface RefCodeService {
     List<DropDownResponse> getAllRefCodeByCategory(String category);
 
     List<DropDownResponse> getRefcodeCategoryList();
+
+    boolean deleteRefCodeById(String refCode);
 }

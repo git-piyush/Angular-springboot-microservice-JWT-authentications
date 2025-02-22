@@ -39,7 +39,7 @@ public class RefCodeServiceImpl implements RefCodeService {
         Sort sort = sortDir.equalsIgnoreCase("ASC")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<RefCode> page = null;
-        if(filterText==null){
+        if(filterType==null || filterType==""){
             page = refCodeRepository.findByActive(AppConstant.YES,pageable);
         }else{
             if(filterType!=null && filterType.equalsIgnoreCase("REFCODE")) {
@@ -95,6 +95,20 @@ public class RefCodeServiceImpl implements RefCodeService {
             return list;
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public boolean deleteRefCodeById(String refCode) {
+
+       try{
+           if(refCode!=null) {
+               refCodeRepository.deleteByRefCode(refCode);
+               return true;
+           }
+       }catch (Exception e){
+            return false;
+       }
+        return false;
     }
 
 

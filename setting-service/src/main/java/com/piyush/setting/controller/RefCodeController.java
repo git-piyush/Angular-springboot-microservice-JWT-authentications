@@ -4,6 +4,7 @@ import com.piyush.setting.dto.DropDownResponse;
 import com.piyush.setting.dto.RefCodeModelRequest;
 import com.piyush.setting.dto.RefCodeModelResponse;
 import com.piyush.setting.entity.RefCode;
+import com.piyush.setting.repository.RefCodeRepository;
 import com.piyush.setting.service.serviceImpl.RefCodeService;
 import com.piyush.setting.util.AppConstant;
 import jakarta.transaction.Transactional;
@@ -25,6 +26,9 @@ public class RefCodeController {
     @Autowired
     private RefCodeService refCodeService;
 
+    @Autowired
+    private RefCodeRepository refCodeRepository;
+
     @PostMapping("/create")
     public ResponseEntity createRefcode(@RequestBody RefCodeModelRequest modelRequest){
         //model request to model entity
@@ -32,9 +36,12 @@ public class RefCodeController {
         modelRequest.setCategory(modelRequest.getCategory().toUpperCase());
         modelRequest.setLongName(modelRequest.getLongName().toUpperCase());
         modelRequest.setActive("A");
-        RefCode refCode = mapper.map(modelRequest, RefCode.class);
+        RefCode refCode1 = refCodeRepository.findByRefCode(modelRequest.getRefCode().toUpperCase());
+        if(refCode1!=null){
+            return new ResponseEntity<>("Please Enter a Unique RefCode.", HttpStatus.OK);
+        }
 
-        System.out.println(refCode.getRefCode());
+        RefCode refCode = mapper.map(modelRequest, RefCode.class);
 
         RefCode createdRefCode = refCodeService.createRefCode(refCode);
 
@@ -88,6 +95,17 @@ public class RefCodeController {
             return new ResponseEntity<>(allRefCode, HttpStatus.OK);
         }
         return new ResponseEntity<>("No Data Found.", HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/deleteRefCode/{refCode}")
+    @Transactional
+    public ResponseEntity deleteRefCodeById(@PathVariable String refCode){
+
+        boolean deleted = refCodeService.deleteRefCodeById(refCode);
+        if(deleted){
+            return new ResponseEntity<>("RefCode Deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Something went wrong.", HttpStatus.NOT_FOUND);
     }
 
 }
