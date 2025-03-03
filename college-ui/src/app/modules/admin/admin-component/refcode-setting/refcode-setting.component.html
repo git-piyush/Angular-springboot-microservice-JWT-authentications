@@ -37,8 +37,12 @@
 </div>
 <br>
 <div style="padding-left: 150px;">
-    <button (click)="openAddRefCodeForm()" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add RefCode</button>
-    <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Create New Category And Refcode</button>
+    <button (click)="openAddRefCodeForm()" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+        Add RefCode
+    </button>
+    <button (click)="openCreateRefCodeForm()" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+        Create New Category And Refcode
+    </button>
 </div>
 <hr>
 <br>
@@ -71,8 +75,13 @@
                                     <td>
                                         {{ refcode.category }}
                                     </td>
-                                    <td>
-                                        {{ refcode.longName }}
+                                    <td matTooltip="{{ refcode.longName }}" matTooltipPosition="below" data-tooltip-style="light">
+                                        <div *ngIf="refcode.longName.length<=12">
+                                          {{ refcode.longName }}
+                                        </div>
+                                        <div *ngIf="refcode.longName.length>12">
+                                          {{ refcode.longName.substring(0,12) }}...
+                                        </div>
                                     </td>
                                     <td>
                                         {{ refcode.active }}
@@ -134,12 +143,12 @@
   </div>
 
 
-<!-- Below is the code to open a popup form to draft an email. -->
+<!-- Below is the code to open a popup form to add a new refcode in existing category. -->
 <div
   class="modal"
   tabindex="-1"
   role="dialog"
-  [ngStyle]="{'display':displayStyle}">
+  [ngStyle]="{'display':form1}">
   <div class="modal-dialog" role="document"> 
     <div class="modal-content"> 
       <div class="modal-header"> 
@@ -169,7 +178,59 @@
       <div class="modal-footer"> 
         <button type="button" class="btn btn-info" 
                 (click)="addRefCode()"> 
-          Send 
+          Save 
+        </button> 
+        <button type="button" class="btn btn-danger" 
+                (click)="closePopup()"> 
+          Close 
+        </button> 
+      </div> 
+    </div> 
+  </div> 
+</div>
+
+
+<!-- Below is the code to open a popup form to create a new refcode and category. -->
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':form2}">
+  <div class="modal-dialog" role="document"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+        <h4 class="modal-title">Add RefCode</h4> 
+      </div> 
+      <div class="modal-body">         
+        <form class="mail-form" [formGroup]="createRefCodeForm">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">RefCode:</label>
+              <input formControlName="refCode" type="text" class="form-control" id="recipient">
+              <div style="color: red;" *ngIf="createRefCodeForm.get('refCode')?.invalid && addRefCodeForm.get('refCode')?.touched" class="error-message">
+                Please add a Unique refcode containing 5 Characters.
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">New Category:</label>
+                <input formControlName="category" type="text" class="form-control" id="message-text" >
+                <div style="color: red;" *ngIf="createRefCodeForm.get('category')?.invalid && addRefCodeForm.get('category')?.touched" class="error-message">
+                    Refcode Category is mandatory input.
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">RefCode Long Name:</label>
+              <input formControlName="longName" type="text" class="form-control" id="message-text" >
+              <div style="color: red;" *ngIf="createRefCodeForm.get('longName')?.invalid && addRefCodeForm.get('longName')?.touched" class="error-message">
+                Refcode long name is mandatory input.
+              </div>
+            </div>
+        </form>
+  
+      </div> 
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-info" 
+                (click)="createRefCode()" [disabled]="createRefCodeForm.invalid"> 
+          Save 
         </button> 
         <button type="button" class="btn btn-danger" 
                 (click)="closePopup()"> 

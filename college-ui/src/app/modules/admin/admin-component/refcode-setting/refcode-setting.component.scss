@@ -92,3 +92,10 @@ text-decoration:none;
   .mat-form-field-appearance-none .mat-form-field-flex {
     padding: 0;
   }
+
+  .custom-tooltip {
+    background: white; /* White background */
+    color: black; /* Black text */
+    font-size: 50px; /* Optional: Adjust font size */
+    border: 1px solid #ccc; /* Optional: Add a border */
+  }

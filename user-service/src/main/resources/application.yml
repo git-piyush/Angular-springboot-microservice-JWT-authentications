@@ -26,3 +26,4 @@ eureka:
 application:
   config:
     fee-url: http://localhost:8081/api/v1/fee
+    setting-url: http://localhost:8081/api/v1/refcode

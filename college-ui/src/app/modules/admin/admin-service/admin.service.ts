@@ -66,44 +66,7 @@ export class AdminService {
       headers: this.createAuhtorizationHeader()
     })
   }
-  createStudentVacancy(userId: any):Observable<any>{
-    return this.http.get<[]>(BASIC_URL+`api/v1/admin/userdetails/${userId}`,{
-      headers: this.createAuhtorizationHeader()
-    })
-  }
-
-  getAllActiveRefCode(pageNo:number, pageSize:number): Observable<any>{
-    return this.http.get<[]>(BASIC_URL+"api/v1/refcode/getrefcode?pageNo="+pageNo+"&pageSize="+pageSize,{
-      headers: this.createAuhtorizationHeader()
-    })
-  }
-
-  getRefCodeByFilter(pageNo:number, pageSize:number, filterType:string, filterValue:string, filterText:string): Observable<any>{
-    return this.http.get<[]>(BASIC_URL+"api/v1/refcode/getrefcode?pageNo="+pageNo+"&pageSize="+pageSize+"&filterType="+filterType+
-      "&filterValue="+filterValue+"&filterText="+filterText,{
-      headers: this.createAuhtorizationHeader()
-    })
-  }
-
-  getCategoryDropDown(): Observable<any>{
-    return this.http.get<[]>(BASIC_URL+"api/v1/refcode/getrefcodecategorylist",{
-      headers: this.createAuhtorizationHeader()
-    })
-  }
-
-  addRefCode(refCodeRequest:any): Observable<any>{
-    return this.http.post<[]>(BASIC_URL+"api/v1/refcode/create",refCodeRequest,{
-      headers: this.createAuhtorizationHeader()
-    })
-  }
-
-  deleteRefCode(refCode: string):Observable<any> {
-    return this.http.delete<[]>(BASIC_URL+`api/v1/refcode/deleteRefCode/${refCode}`,{
-      headers: this.createAuhtorizationHeader()
-    })
-  }
-
-
+  
   private createAuhtorizationHeader() {
     const jwtToken = localStorage.getItem('c_token');
     if (jwtToken) {

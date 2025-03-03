@@ -5,6 +5,7 @@ import { AdminService } from '../../admin-service/admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SettingService } from '../../admin-service/setting-service/setting.service';
 
 @Component({
   selector: 'app-refcode-setting',
@@ -14,8 +15,9 @@ import { Router } from '@angular/router';
   styleUrl: './refcode-setting.component.scss'
 })
 export class RefcodeSettingComponent {
-
+  showTooltip = false;
   addRefCodeForm: FormGroup | undefined;
+  createRefCodeForm: FormGroup | undefined;
   refCodeSearchFilterForm: FormGroup | undefined;
   refCodes:any;
   refCodeCategoryList:any;
@@ -29,7 +31,7 @@ export class RefcodeSettingComponent {
   Math: any;
 
   constructor(
-    private service : AdminService,
+    private service : SettingService,
     private snackbar : MatSnackBar,
     private fb : FormBuilder,
     private dialog: MatDialog,
@@ -47,10 +49,17 @@ export class RefcodeSettingComponent {
     })
 
     this.addRefCodeForm = this.fb.group({
-      refCode:['', Validators.required],
-      category:['',Validators.required],
-      longName:['', Validators.required],
-      active:['', Validators.required]
+      refCode:[null, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
+      category:[null,[Validators.required]],
+      longName:[null, [Validators.required, Validators.minLength(1)]],
+      active:[null, [Validators.required]]
+    })
+
+    this.createRefCodeForm = this.fb.group({
+      refCode:[null, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
+      category:[null,[Validators.required]],
+      longName:[null, [Validators.required, Validators.minLength(1)]],
+      active:[null, []]
     })
 
     this.getAllActiveRefCode(this.currentPage,this.pageSize);
@@ -81,12 +90,9 @@ export class RefcodeSettingComponent {
     }
     const formVal = this.refCodeSearchFilterForm.value;
     this.refCodeSearchFilterForm.patchValue(formVal);
-    console.log(formVal);
-    console.log(this.refCodeSearchFilterForm.value);
   }
 
   getRefcodeDropDown(){
-    console.log('getRefcodeDropDown');
     this.service.getCategoryDropDown().subscribe((res)=>{
       console.log(res);
       this.refCodeCategoryList = res;
@@ -118,7 +124,7 @@ export class RefcodeSettingComponent {
           this.refCodes = res.content;
           this.totalElements = res.totalElements;
           this.pageSize = res.pageSize;
-          this.snackbar.open("Student retrieved successfully.", "Close",{duration:5000});
+          this.snackbar.open("Refcode retrieved successfully.", "Close",{duration:5000});
         }
     }, (err:HttpErrorResponse) => {
       console.log(err);
@@ -148,7 +154,7 @@ export class RefcodeSettingComponent {
           this.refCodes = res.content;
           this.totalElements = res.totalElements;
           this.pageSize = res.pageSize;
-          this.snackbar.open("Student retrieved successfully.", "Close",{duration:5000});
+          this.snackbar.open("Refcode retrieved successfully.", "Close",{duration:5000});
         }
     }, (err:HttpErrorResponse) => {
       console.log(err);
@@ -201,16 +207,6 @@ export class RefcodeSettingComponent {
     })
   }
 
-  deleteStudent(studentId: number){
-    if(confirm("Are you sure about this deletion?")){
-      this.service.deleteStudent(studentId).subscribe((res)=>{
-        console.log("pk"+res);
-        //this.getAllStudents(pageNo:number, pageSize:number);
-        this.snackbar.open("Student deleted successfully","Close",{duration:5000})
-      })
-    }
-  }
-
   onPageSizeChange(event: any): void {
     this.pageSize = event.target.value;
     this.currentPage = 0;
@@ -233,10 +229,15 @@ export class RefcodeSettingComponent {
       this.refcodeByFilter1();
     }
   }
-  displayStyle = "none"; 
+  form1 = "none"; 
   openAddRefCodeForm(){
     this.getRefcodeDropDown();
-    this.displayStyle = "block";
+    this.form1 = "block";
+  }
+
+  form2 = "none"; 
+  openCreateRefCodeForm(){
+    this.form2 = "block";
   }
   
   
@@ -258,6 +259,37 @@ export class RefcodeSettingComponent {
         this.refCodes = null;
         console.log(err);
         this.snackbar.open(err.error,"Close", { duration: 5000 });
+      }
+      if(err.status==200){
+        this.refCodes = null;
+
+        this.snackbar.open(err.error.text,"Close", { duration: 5000 });
+        this.closePopup();
+        this.getAllActiveRefCode(this.currentPage,this.pageSize);
+      }
+   })
+   this.closePopup();
+  }
+
+  createRefCode(){
+    console.log(this.createRefCodeForm.value);
+    this.service.addRefCode(this.createRefCodeForm.value).subscribe((res)=>{
+        if(res!=null){
+          this.snackbar.open(res, "Close",{duration:5000});
+          this.closePopup();
+          this.router.navigateByUrl("/refcodesetting");
+        }
+    }, (err:HttpErrorResponse) => {
+      console.log(err);
+      if(err.status==403){
+        this.snackbar.open("Something went is wrong.","Close", { duration: 5000 });
+        this.closePopup();
+      }
+      if(err.status==404){
+        this.refCodes = null;
+        console.log(err);
+        this.snackbar.open(err.error,"Close", { duration: 5000 });
+        this.closePopup();
       }
       if(err.status==200){
         this.refCodes = null;
@@ -292,17 +324,20 @@ export class RefcodeSettingComponent {
     if(err.status==200){
       this.refCodes = null;
       console.log(err);
-      this.snackbar.open('Email has been sent.',"Close", { duration: 5000 });
+      this.snackbar.open('Refcode deleted.',"Close", { duration: 5000 });
       this.closePopup();
       this.getAllActiveRefCode(this.currentPage,this.pageSize);
     }
  })
   }
   closePopup() {
-    this.addRefCodeForm.value.refCode=null;
-    this.addRefCodeForm.value.category=null;
-    this.addRefCodeForm.value.longName=null;
-    this.displayStyle = "none"; 
+    //this.addRefCodeForm.value.refCode=null;
+    //this.addRefCodeForm.value.category=null;
+    //this.addRefCodeForm.value.longName=null;
+    //this.addRefCodeForm.patchValue(this.addRefCodeForm.value);
+    this.addRefCodeForm.reset();
+    this.form1 = "none";
+    this.form2 = "none";
   }
 
 }

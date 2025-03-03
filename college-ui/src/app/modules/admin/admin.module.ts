@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminDashboardComponent } from './admin-component/admin-dashboard/admin-dashboard.component';
 import { StudentListComponent } from './admin-component/student-list/student-list.component';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -23,21 +22,24 @@ import { RegistereduserListComponent } from './admin-component/registereduser-li
 import { UserDetailsComponent } from './admin-component/user-details/user-details.component';
 import { RefcodeSettingComponent } from './admin-component/refcode-setting/refcode-setting.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { CreateVacancyComponent } from './admin-component/create-vacancy/create-vacancy.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
-    AdminDashboardComponent,
     StudentListComponent,
     TeacherListComponent,
     TeacherDetailsComponent,
     RegistereduserListComponent,
     UserDetailsComponent,
-    RefcodeSettingComponent
+    RefcodeSettingComponent,
+    CreateVacancyComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     //
+    MatTooltipModule,
     ReactiveFormsModule,
     FormsModule,
     MatProgressSpinnerModule,
