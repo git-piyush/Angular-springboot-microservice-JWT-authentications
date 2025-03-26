@@ -7,7 +7,7 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/v1/admin/**, /api/v1/student/**,/api/v1/teacher/**
+            - Path=/api/v1/admin/**, /api/v1/student/**,/api/v1/teacher/**,/api/v1/vacancy/**
           filters:
             - AuthenticationFilter
           metadata:

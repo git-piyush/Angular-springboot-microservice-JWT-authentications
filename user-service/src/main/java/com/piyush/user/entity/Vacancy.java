@@ -26,6 +26,17 @@ public class Vacancy {
 
     private Integer noOfVacancy;
 
+    @Column(name = "COURSE")
+    private String refCodeCourse;
+
+    public String getRefCodeCourse() {
+        return refCodeCourse;
+    }
+
+    public void setRefCodeCourse(String refCodeCourse) {
+        this.refCodeCourse = refCodeCourse;
+    }
+
     public Long getId() {
         return id;
     }

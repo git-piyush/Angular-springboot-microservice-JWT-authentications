@@ -20,6 +20,7 @@ export class CreateVacancyComponent {
   vacancyForm: FormGroup;
   refUserTypeList:any;
   branchList:any;
+  courseList:any;
   private snackbar = inject(MatSnackBar);
   teacherVacancy: boolean;
   constructor(private fb: FormBuilder,private settingService: SettingService,
@@ -32,12 +33,21 @@ export class CreateVacancyComponent {
         specialization: ['', Validators.required],
         startDate:['', Validators.required],
         endDate:['', Validators.required],
-        noOfVacancy:['', Validators.required]
+        noOfVacancy:['', Validators.required],
+        refCodeCourse:['', Validators.required]
       });
   }
   ngOnInit(){
     this.getUserTypeDropDown("USER_TYPE");
     this.getEngBranchDropDown("ENG_BRANCH");
+    this.getCourseDropDown("COURSE");
+  }
+
+  getCourseDropDown(userType:string){
+    this.settingService.getUserTypeDropDown(userType).subscribe((res)=>{
+      console.log(res);
+      this.courseList = res;
+    })
   }
 
   getUserTypeDropDown(userType:string){
@@ -75,6 +85,16 @@ export class CreateVacancyComponent {
       this.teacherVacancy = false;
       this.vacancyForm.controls["designations"].setErrors(null);
       this.vacancyForm.controls["specialization"].setErrors(null);
+    }
+  }
+
+  branch:boolean;
+  onCourseChange(val: Event) {
+    if((val.target as HTMLInputElement).value === 'RCBTE'){
+        this.branch = true;
+    }else{
+      this.branch = false;
+      this.vacancyForm.controls["branch"].setErrors(null);
     }
   }
 }

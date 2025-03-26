@@ -27,7 +27,7 @@ public class AuthConfig {
         return http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/register", "/auth/token", "/auth/validate","/auth/sendotp",
-                        "/auth/reset-password","/api/v1/user/user-info","/auth/getusername").permitAll()
+                        "/auth/reset-password","/api/v1/student/user-info","/auth/getusername","/api/v1/vacancy/get-hello").permitAll()
                 .and()
                 .build();
     }

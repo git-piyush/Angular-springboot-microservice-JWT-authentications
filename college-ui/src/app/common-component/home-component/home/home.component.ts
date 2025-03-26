@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Chart } from 'chart.js/auto';
+import { AuthService } from '../../../auth/services/auth/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { VacancyService } from '../../../modules/admin/admin-service/vacancy-service/vacancy.service';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +13,11 @@ import { Chart } from 'chart.js/auto';
 })
 export class HomeComponent {
 
+  vacancy : any;
+
+  constructor(private http: HttpClient,
+    private vacancyService: VacancyService) { }
+
   @Output() settingsEvent = new EventEmitter<void>();
   ngAfterViewInit(): void {
     this.initializeCharts();
@@ -17,7 +25,15 @@ export class HomeComponent {
   initializeCharts() {
     this.createSalesChart();
     this.createPerformanceChart();
+    this.getVacancy();
   }
+
+  getVacancy(){
+    this.vacancyService.getAllVacancy().subscribe((res)=>{
+      this.vacancy = res.content;
+    })
+  }
+
   createSalesChart() {
     const ctx = (document.getElementById('salesChart') as HTMLCanvasElement).getContext('2d');
     if (ctx) {

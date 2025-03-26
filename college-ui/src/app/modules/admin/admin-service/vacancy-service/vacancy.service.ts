@@ -17,6 +17,16 @@ export class VacancyService {
     })
   }
 
+  getAllVacancy(): Observable<any>{
+    return this.http.get<[]>(BASIC_URL+"api/v1/admin/vacancy",{
+      headers: this.createAuhtorizationHeader()
+    })
+  }
+
+  register(signRequest: any): Observable<any> {
+    return this.http.post<[]>(BASIC_URL + 'auth/register', signRequest)
+  }
+
   private createAuhtorizationHeader() {
     const jwtToken = localStorage.getItem('c_token');
     if (jwtToken) {
